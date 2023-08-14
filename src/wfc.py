@@ -78,10 +78,7 @@ class Map:
                 if not cell.collapsed and cell.entropy() == lowest.entropy():
                     lows.append(cell)
         index = math.floor(random.random() * len(lows))
-        # try:
         lowest = lows[index]
-        # except Exception:
-        #     print('failure')
 
         return lowest
 
@@ -105,9 +102,9 @@ class Map:
 
     def run(self):
         fails = 0
-        while not self.is_solved() and fails < 10:
+        while fails < 5:
             if self.is_solved():
-                print('what')
+                break
             cell = self.find_lowest_entropy()
             self.collapse(cell)
             if self.hasContradiction:
