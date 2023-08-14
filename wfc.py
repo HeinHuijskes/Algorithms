@@ -1,6 +1,5 @@
 import math
 import random
-import time
 
 from presets import *
 
@@ -16,18 +15,18 @@ class Map:
             return [self.RIGHT, self.LEFT, self.UP, self.DOWN]
 
     class Tile:
-        def __init__(self, name, frequency, colour):
+        def __init__(self, name, frequency, colour_level):
             self.name = name
             self.frequency = frequency
-            self.colour = colour
+            self.colour_level = colour_level
 
-    def __init__(self):
+    def __init__(self, size):
         self.directions = self.DIRECTIONS()
         self.tiles = []
         self.set_tiles()
         self.ruleSet = []
         self.set_rules()
-        self.size = 40
+        self.size = size
         self.cells = [[self.Cell(x, y, self) for x in range(0, self.size)] for y in range(0, self.size)]
         self.hasContradiction = False
 
@@ -36,15 +35,15 @@ class Map:
         self.hasContradiction = False
 
     def set_tiles(self):
-        palette = map_colours
         palette = grey_gradient_2
         palette = grey_gradient
-        self.tiles.append(self.Tile('HEAVEN', 8, palette[0]))
-        self.tiles.append(self.Tile('MOUNTAIN', 15, palette[1]))
-        self.tiles.append(self.Tile('LAND', 15, palette[2]))
-        self.tiles.append(self.Tile('COAST', 15, palette[3]))
-        self.tiles.append(self.Tile('SEA', 15, palette[4]))
-        self.tiles.append(self.Tile('OCEAN', 8, palette[5]))
+        palette = map_colours
+        self.tiles.append(self.Tile('HEAVEN', 8, 0))
+        self.tiles.append(self.Tile('MOUNTAIN', 15, 1))
+        self.tiles.append(self.Tile('LAND', 15, 2))
+        self.tiles.append(self.Tile('COAST', 15, 3))
+        self.tiles.append(self.Tile('SEA', 15, 4))
+        self.tiles.append(self.Tile('OCEAN', 8, 5))
 
     def set_rules(self):
         [self.ruleSet.append(('HEAVEN', 'HEAVEN', direction)) for direction in self.directions.all()]
@@ -160,57 +159,3 @@ class Map:
                 return self.cell_map.directions.DOWN
             if cell.x == self.x and cell.y < self.y:
                 return self.cell_map.directions.UP
-
-
-def print_map(cell_map):
-    for row in cell_map.cells:
-        row_string = '\033[1m\033[30m'
-        for cell in row:
-            if cell.state not in cell_map.tiles:
-                row_string += ' '
-            else:
-                row_string += cell.state.colour + '  '  # state.name[0]
-        row_string += '\033[0m'
-        print(row_string)
-    print('----------')
-
-
-def run_algorithm():
-    cell_map = Map()
-    cell_map.run()
-    if cell_map.is_solved():
-        print('Solved!')
-    else:
-        print('Failed!')
-
-
-def run_algorithm_print(print_stepwise_map=False):
-    cell_map = Map()
-    fails = 0
-    while not (cell_map.is_solved() and fails < 5):
-        if print_stepwise_map:
-            print_map(cell_map)
-        cell = cell_map.find_lowest_entropy()
-        cell_map.collapse(cell)
-        if cell_map.hasContradiction:
-            cell_map.reset()
-            print('fail!')
-            # print_map(cell_map)
-            fails += 1
-
-    if fails > 4:
-        print('5 or more failures')
-    if cell_map.is_solved():
-        print('Solved!')
-    print_map(cell_map)
-
-
-# run_algorithm_print(print_stepwise_map=True)
-run_algorithm_print()
-
-# iterations = 100
-# timer_start = time.perf_counter()
-# [run_algorithm() for i in range(0, iterations)]
-# timer_end = time.perf_counter()
-# run_time = timer_end - timer_start
-# print('Ran', iterations, 'iterations in', run_time, 'seconds')
