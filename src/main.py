@@ -43,5 +43,6 @@ def time_test(size=20, iterations=100):
 
 
 # run_algorithm_print(40, print_stepwise_map=True)
-run_algorithm_print(40)
+# run_algorithm_print(50)
+run_algorithm(50)
 # time_test()

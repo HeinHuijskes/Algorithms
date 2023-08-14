@@ -1,7 +1,7 @@
 import math
 import random
 
-from presets import *
+from src.presets import *
 
 
 class Map:
@@ -77,7 +77,12 @@ class Map:
             for cell in row:
                 if not cell.collapsed and cell.entropy() == lowest.entropy():
                     lows.append(cell)
-        lowest = lows[math.floor(random.random() * len(lows))]
+        index = math.floor(random.random() * len(lows))
+        # try:
+        lowest = lows[index]
+        # except Exception:
+        #     print('failure')
+
         return lowest
 
     def collapse(self, cell):
@@ -100,12 +105,15 @@ class Map:
 
     def run(self):
         fails = 0
-        while not (self.is_solved() and fails < 5):
+        while not self.is_solved() and fails < 10:
+            if self.is_solved():
+                print('what')
             cell = self.find_lowest_entropy()
             self.collapse(cell)
             if self.hasContradiction:
                 self.reset()
                 fails += 1
+        return fails
 
     class Cell:
         def __init__(self, x, y, cell_map):
