@@ -2,6 +2,8 @@ import math
 import random
 import time
 
+from presets import *
+
 
 class Map:
     class DIRECTIONS:
@@ -25,7 +27,7 @@ class Map:
         self.set_tiles()
         self.ruleSet = []
         self.set_rules()
-        self.size = 20
+        self.size = 40
         self.cells = [[self.Cell(x, y, self) for x in range(0, self.size)] for y in range(0, self.size)]
         self.hasContradiction = False
 
@@ -34,21 +36,28 @@ class Map:
         self.hasContradiction = False
 
     def set_tiles(self):
-        self.tiles.append(self.Tile('LAND', 50, '\033[92m'))
-        self.tiles.append(self.Tile('SEA', 15, '\033[94m'))
-        self.tiles.append(self.Tile('COAST', 15, '\033[93m'))
-        self.tiles.append(self.Tile('MOUNTAIN', 50, '\033[90m'))
+        palette = map_colours
+        palette = grey_gradient_2
+        palette = grey_gradient
+        self.tiles.append(self.Tile('HEAVEN', 8, palette[0]))
+        self.tiles.append(self.Tile('MOUNTAIN', 15, palette[1]))
+        self.tiles.append(self.Tile('LAND', 15, palette[2]))
+        self.tiles.append(self.Tile('COAST', 15, palette[3]))
+        self.tiles.append(self.Tile('SEA', 15, palette[4]))
+        self.tiles.append(self.Tile('OCEAN', 8, palette[5]))
 
     def set_rules(self):
-        # Allow all tiles next to themselves and others, except SEA and LAND
+        [self.ruleSet.append(('HEAVEN', 'HEAVEN', direction)) for direction in self.directions.all()]
+        [self.ruleSet.append(('HEAVEN', 'MOUNTAIN', direction)) for direction in self.directions.all()]
+        [self.ruleSet.append(('MOUNTAIN', 'MOUNTAIN', direction)) for direction in self.directions.all()]
+        [self.ruleSet.append(('MOUNTAIN', 'LAND', direction)) for direction in self.directions.all()]
         [self.ruleSet.append(('LAND', 'LAND', direction)) for direction in self.directions.all()]
         [self.ruleSet.append(('LAND', 'COAST', direction)) for direction in self.directions.all()]
         [self.ruleSet.append(('COAST', 'COAST', direction)) for direction in self.directions.all()]
         [self.ruleSet.append(('COAST', 'SEA', direction)) for direction in self.directions.all()]
         [self.ruleSet.append(('SEA', 'SEA', direction)) for direction in self.directions.all()]
-        [self.ruleSet.append(('MOUNTAIN', 'LAND', direction)) for direction in self.directions.all()]
-        [self.ruleSet.append(('MOUNTAIN', 'MOUNTAIN', direction)) for direction in self.directions.all()]
-
+        [self.ruleSet.append(('SEA', 'OCEAN', direction)) for direction in self.directions.all()]
+        [self.ruleSet.append(('OCEAN', 'OCEAN', direction)) for direction in self.directions.all()]
 
     def is_solved(self):
         for row in self.cells:
@@ -155,12 +164,13 @@ class Map:
 
 def print_map(cell_map):
     for row in cell_map.cells:
-        row_string = ''
+        row_string = '\033[1m\033[30m'
         for cell in row:
             if cell.state not in cell_map.tiles:
                 row_string += ' '
             else:
-                row_string += cell.state.colour + cell.state.name[0] + '\033[0m'
+                row_string += cell.state.colour + '  '  # state.name[0]
+        row_string += '\033[0m'
         print(row_string)
     print('----------')
 
@@ -185,7 +195,7 @@ def run_algorithm_print(print_stepwise_map=False):
         if cell_map.hasContradiction:
             cell_map.reset()
             print('fail!')
-            print_map(cell_map)
+            # print_map(cell_map)
             fails += 1
 
     if fails > 4:
