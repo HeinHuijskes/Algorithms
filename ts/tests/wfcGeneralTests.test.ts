@@ -21,7 +21,7 @@ const timeTest = (size = 20, iterations = 100) => {
 
 describe('General algorithm functionality', () => {
   test('Algorithm looks good',  () => {
-    const consoleLog = false
+    const consoleLog = true
     expect(runAlgorithmPrint(5, consoleLog, true).isSolved()).toBe(true)
     expect(runAlgorithmPrint(30, consoleLog).isSolved()).toBe(true)
   })
@@ -37,6 +37,6 @@ describe('General algorithm functionality', () => {
   })
 
   test('Algorithm can handle big maps', () => {
-    expect(runAlgorithm(50).isSolved()).toBe(true)
+    expect(runAlgorithm(100).isSolved()).toBe(true)
   })
 })

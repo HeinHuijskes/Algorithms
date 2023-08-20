@@ -1,15 +1,19 @@
-import { WfcMap } from "./wfcMap";
-import { WfcUI } from "./wfcUI";
+import {WfcMap} from "./wfcMap";
+import {WfcUI} from "./wfcUI";
+import largeMap from "./fixtures/largeMap"
+
+const rules = largeMap.rules
+const tiles = largeMap.tiles
 
 export const runAlgorithm = (size: number) => {
-  let wfcMap = new WfcMap(size)
+  let wfcMap = new WfcMap(size, rules, tiles)
   wfcMap.createMap()
   return wfcMap
 }
 
 export const runAlgorithmPrint = (size = 10, consoleLog = false, stepwise = false) => {
   let maps = []
-  const wfcMap = new WfcMap(size)
+  const wfcMap = new WfcMap(size, rules, tiles)
   const UI =  new WfcUI()
   let fails = 0
   while (fails < 5) {

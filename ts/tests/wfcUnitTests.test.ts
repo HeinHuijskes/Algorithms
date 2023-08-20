@@ -1,10 +1,18 @@
-import { describe, expect, test } from "vitest";
+import { beforeAll, describe, expect, test } from "vitest";
 import { WfcMap } from "../wfcMap";
+import largeMap from "../fixtures/largeMap";
+
+let wfcMap: WfcMap
+
+beforeAll(() => {
+  const rules = largeMap.rules
+  const tiles = largeMap.tiles
+  wfcMap = new WfcMap(10, rules, tiles)
+})
 
 describe('Unit tests', () => {
   describe('Map', () => {
     describe('Neighbours', () => {
-      const wfcMap = new WfcMap(10)
       test('Map finds correct neighbours in the middle', () => {
         const x = 3
         const y = 3

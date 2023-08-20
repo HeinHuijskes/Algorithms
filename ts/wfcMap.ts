@@ -3,56 +3,45 @@ import { WfcCell } from "./wfcCell";
 import { WfcRule } from "./wfcRule";
 
 export class WfcMap {
-  DIRECTIONS = {
+
+  // TODO: Add picture scanning
+
+  static DIRECTIONS = {
     RIGHT: 'RIGHT',
     LEFT: 'LEFT',
     UP: 'UP',
     DOWN: 'DOWN',
   }
-  allDirections = () => [this.DIRECTIONS.RIGHT, this.DIRECTIONS.LEFT, this.DIRECTIONS.UP, this.DIRECTIONS.DOWN]
 
   tiles: WfcTile[]
   ruleSet: WfcRule[]
   cells: WfcCell[][]
   size: number
   hasContradiction: boolean
-  constructor(size: number) {
+  constructor(size: number, rules: Record<any,any>[], tiles: Record<any,any>[]) {
     this.size = size
-    this.reset()
+    this.setTiles(tiles)
+    this.setRules(rules)
+    this.setCells()
   }
 
   reset = () => {
-    this.setTiles()
-    this.setRules()
     this.setCells()
     this.hasContradiction = false
   }
 
-  setTiles = () => {
-    // TODO: Use fixture in yaml or json file
+  setTiles = (tiles: Record<any,any>[]) => {
     this.tiles = []
-    this.tiles.push(new WfcTile('HEAVEN', 8, 0))
-    this.tiles.push(new WfcTile('MOUNTAIN', 15, 1))
-    this.tiles.push(new WfcTile('LAND', 15, 2))
-    this.tiles.push(new WfcTile('COAST', 15, 3))
-    this.tiles.push(new WfcTile('SEA', 15, 4))
-    this.tiles.push(new WfcTile('OCEAN', 8, 5))
+    for (let tile of tiles) {
+      this.tiles.push(new WfcTile(tile.name, tile.frequency, tile.colour))
+    }
   }
 
-  setRules = () => {
-    // TODO: Also fixture
+  setRules = (rules: Record<any,any>[]) => {
     this.ruleSet = []
-    this.allDirections().map((direction) => this.ruleSet.push(new WfcRule('HEAVEN', 'HEAVEN', direction)))
-    this.allDirections().map((direction) => this.ruleSet.push(new WfcRule('HEAVEN', 'MOUNTAIN', direction)))
-    this.allDirections().map((direction) => this.ruleSet.push(new WfcRule('MOUNTAIN', 'MOUNTAIN', direction)))
-    this.allDirections().map((direction) => this.ruleSet.push(new WfcRule('MOUNTAIN', 'LAND', direction)))
-    this.allDirections().map((direction) => this.ruleSet.push(new WfcRule('LAND', 'LAND', direction)))
-    this.allDirections().map((direction) => this.ruleSet.push(new WfcRule('LAND', 'COAST', direction)))
-    this.allDirections().map((direction) => this.ruleSet.push(new WfcRule('COAST', 'COAST', direction)))
-    this.allDirections().map((direction) => this.ruleSet.push(new WfcRule('COAST', 'SEA', direction)))
-    this.allDirections().map((direction) => this.ruleSet.push(new WfcRule('SEA', 'SEA', direction)))
-    this.allDirections().map((direction) => this.ruleSet.push(new WfcRule('SEA', 'OCEAN', direction)))
-    this.allDirections().map((direction) => this.ruleSet.push(new WfcRule('OCEAN', 'OCEAN', direction)))
+    for (let rule of rules) {
+      this.ruleSet.push(new WfcRule(rule.firstTile, rule.secondTile, rule.direction))
+    }
   }
 
   setCells = () => {

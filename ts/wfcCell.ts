@@ -69,14 +69,14 @@ export class WfcCell {
 
   getDirection = (cell: WfcCell) => {
     if (cell.x > this.x && cell.y == this.y) {
-      return this.wfcMap.DIRECTIONS.RIGHT
+      return WfcMap.DIRECTIONS.RIGHT
     }
     if (cell.x < this.x && cell.y == this.y) {
-      return this.wfcMap.DIRECTIONS.LEFT
+      return WfcMap.DIRECTIONS.LEFT
     }
     if (cell.x == this.x && cell.y > this.y) {
-      return this.wfcMap.DIRECTIONS.DOWN
+      return WfcMap.DIRECTIONS.DOWN
     }
-    return this.wfcMap.DIRECTIONS.UP
+    return WfcMap.DIRECTIONS.UP
   }
 }
