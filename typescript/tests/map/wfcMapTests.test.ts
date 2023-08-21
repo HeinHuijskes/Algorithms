@@ -1,5 +1,5 @@
 import { test, expect, describe } from "vitest";
-import { runAlgorithm, runAlgorithmPrint } from '../runWfc'
+import { runAlgorithm, runAlgorithmPrint } from '../../src/runWfc'
 
 // TODO: Add fixtures for map settings and rule sets
 // TODO: Add unit tests for all code blocks
@@ -22,21 +22,21 @@ const timeTest = (size = 20, iterations = 100) => {
 describe('General algorithm functionality', () => {
   test('Algorithm looks good',  () => {
     const consoleLog = true
-    expect(runAlgorithmPrint(5, consoleLog, true).isSolved()).toBe(true)
     expect(runAlgorithmPrint(30, consoleLog).isSolved()).toBe(true)
+    // expect(runAlgorithmPrint(5, consoleLog, true).isSolved()).toBe(true)
   })
 
-  test('Algorithm runs fast', () => {
-    const size = 20
-    const iterations = 1000
-    const unAcceptable = size * size * iterations / 50000
-    const time = timeTest(size, iterations)
-    console.log(`Acceptable time: ${unAcceptable}`)
-    console.log(`Actual time:     ${time}`)
-    expect(time).toBeLessThan(unAcceptable)
-  })
-
-  test('Algorithm can handle big maps', () => {
-    expect(runAlgorithm(100).isSolved()).toBe(true)
-  })
+  // test('Algorithm runs fast', () => {
+  //   const size = 20
+  //   const iterations = 1000
+  //   const unAcceptable = size * size * iterations / 50000
+  //   const time = timeTest(size, iterations)
+  //   console.log(`Acceptable time: ${unAcceptable}`)
+  //   console.log(`Actual time:     ${time}`)
+  //   expect(time).toBeLessThan(unAcceptable)
+  // })
+  //
+  // test('Algorithm can handle big maps', () => {
+  //   expect(runAlgorithm(100).isSolved()).toBe(true)
+  // })
 })

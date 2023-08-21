@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, test } from "vitest";
-import { WfcMap } from "../wfcMap";
-import largeMap from "../fixtures/largeMap";
+import { WfcMap } from "../../src/map/wfcMap";
+import largeMap from "../../data/largeMap";
 
 let wfcMap: WfcMap
 

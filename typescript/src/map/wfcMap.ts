@@ -1,18 +1,8 @@
-import { WfcTile } from "./wfcTile";
+import { WfcTile } from "../../types/wfcTile";
 import { WfcCell } from "./wfcCell";
-import { WfcRule } from "./wfcRule";
+import { WfcRule } from "../../types/wfcRule";
 
 export class WfcMap {
-
-  // TODO: Add picture scanning
-
-  static DIRECTIONS = {
-    RIGHT: 'RIGHT',
-    LEFT: 'LEFT',
-    UP: 'UP',
-    DOWN: 'DOWN',
-  }
-
   tiles: WfcTile[]
   ruleSet: WfcRule[]
   cells: WfcCell[][]

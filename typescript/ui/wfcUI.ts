@@ -1,4 +1,4 @@
-import { WfcMap } from "./wfcMap";
+import { WfcMap } from "../src/map/wfcMap";
 
 export class WfcUI {
   // grey_gradient = ['\u001b[48;5;240m', '\u001b[48;5;242m', '\u001b[48;5;244m', '\u001b[48;5;246m', '\u001b[48;5;248m',

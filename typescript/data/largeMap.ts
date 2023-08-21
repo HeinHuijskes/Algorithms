@@ -43,7 +43,6 @@ export const mapRules = [
   { firstTile: 'OCEAN', secondTile: 'OCEAN', direction: 'LEFT' },
   { firstTile: 'OCEAN', secondTile: 'OCEAN', direction: 'UP' },
   { firstTile: 'OCEAN', secondTile: 'OCEAN', direction: 'DOWN' },
-
 ]
 
 export const mapTiles = [

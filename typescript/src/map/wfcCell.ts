@@ -1,5 +1,6 @@
 import { WfcMap } from "./wfcMap";
-import { WfcTile } from "./wfcTile";
+import { WfcTile } from "../../types/wfcTile";
+import { WfcDirections } from "../util/wfcDirections";
 
 export class WfcCell {
   x = 0
@@ -46,8 +47,12 @@ export class WfcCell {
     let possibleStates = [] as WfcTile[]
     for (let state of this.states) {
       for (let rule of this.wfcMap.ruleSet) {
-        if ((rule.direction == direction) && ((rule.firstState === state.name && rule.secondState === cell.state.name)
-                                          || (rule.secondState === state.name && rule.firstState === cell.state.name))) {
+        // Check if: {state, cellState, direction} === rule, or: {cellState, state, reverse(direction)} === rule
+        if ((direction === rule.direction
+            && state.name === rule.firstState && cell.state.name === rule.secondState)
+          || (WfcDirections.reverse(direction) === rule.direction
+            && cell.state.name === rule.firstState && state.name === rule.secondState))
+        {
           possible = true
         }
       }
@@ -69,14 +74,14 @@ export class WfcCell {
 
   getDirection = (cell: WfcCell) => {
     if (cell.x > this.x && cell.y == this.y) {
-      return WfcMap.DIRECTIONS.RIGHT
+      return WfcDirections.RIGHT
     }
     if (cell.x < this.x && cell.y == this.y) {
-      return WfcMap.DIRECTIONS.LEFT
+      return WfcDirections.LEFT
     }
     if (cell.x == this.x && cell.y > this.y) {
-      return WfcMap.DIRECTIONS.DOWN
+      return WfcDirections.DOWN
     }
-    return WfcMap.DIRECTIONS.UP
+    return WfcDirections.UP
   }
 }
