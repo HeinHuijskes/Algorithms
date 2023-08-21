@@ -1,6 +1,7 @@
 import { WfcMap } from "../src/map/wfcMap";
 
 export class WfcUI {
+  // TODO: add settable colour settings
   // grey_gradient = ['\u001b[48;5;240m', '\u001b[48;5;242m', '\u001b[48;5;244m', '\u001b[48;5;246m', '\u001b[48;5;248m',
   //                    '\u001b[48;5;250m']
   // map_colours = ['\u001b[47m', '\u001b[40m', '\u001b[42m', '\u001b[43m', '\u001b[46m', '\u001b[44m']
@@ -18,6 +19,22 @@ export class WfcUI {
         } else {
           mapString += '   \u001b[0m'
         }
+      }
+      mapString += '\n'
+    }
+    return mapString
+  }
+
+  printTestMap = (testMap: string[][], colouring: Record<any,string>) => {
+    let mapString = ''
+    for (let row of testMap) {
+      for (let tile of row) {
+        if (colouring[tile]) {
+          mapString += colouring[tile]
+        }
+        mapString += ' '
+        mapString += tile.charAt(0) ?? ' '
+        mapString += ' \u001b[0m'
       }
       mapString += '\n'
     }

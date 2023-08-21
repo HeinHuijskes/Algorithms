@@ -89,6 +89,7 @@ export class WfcMap {
   }
 
   propagateChange = (cell: WfcCell) => {
+    // TODO: properly implement propagation
     let changeQueue = this.neighbours(cell)
     let queueCell = null as null|WfcCell
     let change = false

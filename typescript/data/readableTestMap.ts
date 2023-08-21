@@ -1,4 +1,4 @@
-import {WfcColours} from "../ui/wfcColours";
+import { WfcColours } from "../ui/wfcColours";
 
 export const readableTestMap = [
   ['SEA', 'SEA', 'SEA', 'COAST', 'LAND'],

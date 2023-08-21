@@ -11,6 +11,7 @@ export class WfcMapReader {
    * @param cellIndex Index of the considered cell
    */
   static findRules = (inputMap: string[][], rowIndex: number, cellIndex: number) => {
+    // TODO: Add weights to directions
     let ruleSet = [] as Record<any,any>[]
     const cell = inputMap[rowIndex][cellIndex]
     let neighbour: string
