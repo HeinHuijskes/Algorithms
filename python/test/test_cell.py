@@ -1,6 +1,6 @@
 import pytest
 
-from src.wfc import Map
+from python.src.wfc import Map
 
 
 class CellTest:

@@ -1,8 +1,6 @@
 import math
 import random
 
-from src.presets import *
-
 
 class Map:
     class DIRECTIONS:
@@ -35,9 +33,6 @@ class Map:
         self.hasContradiction = False
 
     def set_tiles(self):
-        palette = grey_gradient_2
-        palette = grey_gradient
-        palette = map_colours
         self.tiles.append(self.Tile('HEAVEN', 8, 0))
         self.tiles.append(self.Tile('MOUNTAIN', 15, 1))
         self.tiles.append(self.Tile('LAND', 15, 2))
@@ -65,7 +60,7 @@ class Map:
                     return False
         return True
 
-    def find_lowest_entropy(self):
+    def find_lowest_entropy_cell(self):
         lowest = None
         for row in self.cells:
             for cell in row:
@@ -84,28 +79,36 @@ class Map:
 
     def collapse(self, cell):
         cell.pick_state()
-        for neighbour in self.neighbours(cell):
-            if not neighbour.collapsed:
-                neighbour.restrict(cell)
+        self.propagate_change(cell)
+
+    def propagate_change(self, cell):
+        change_queue = self.neighbours(cell)
+        while change_queue:
+            queue_cell = change_queue.pop(0)
+            change = cell.restrict(queue_cell)
+            if self.hasContradiction:
+                break
+            if change:
+                self.propagate_change(queue_cell)
 
     def neighbours(self, cell):
         neighbours = []
         if cell.x > 0:
-            neighbours.append(self.cells[cell.y][cell.x - 1])
-        if cell.x < self.size - 1:
-            neighbours.append(self.cells[cell.y][cell.x + 1])
+            neighbours.append(self.cells[cell.y][cell.x-1])
+        if cell.x < self.size-1:
+            neighbours.append(self.cells[cell.y][cell.x+1])
         if cell.y > 0:
-            neighbours.append(self.cells[cell.y - 1][cell.x])
-        if cell.y < self.size - 1:
-            neighbours.append(self.cells[cell.y + 1][cell.x])
+            neighbours.append(self.cells[cell.y-1][cell.x])
+        if cell.y < self.size-1:
+            neighbours.append(self.cells[cell.y+1][cell.x])
         return neighbours
 
-    def run(self):
+    def create_map(self):
         fails = 0
         while fails < 5:
             if self.is_solved():
                 break
-            cell = self.find_lowest_entropy()
+            cell = self.find_lowest_entropy_cell()
             self.collapse(cell)
             if self.hasContradiction:
                 self.reset()
@@ -117,7 +120,7 @@ class Map:
             self.cell_map = cell_map
             self.states = [i for i in self.cell_map.tiles]
             self.collapsed = False
-            self.state = ''
+            self.state = None
             self.x = x
             self.y = y
 
@@ -140,20 +143,28 @@ class Map:
             self.states = [self.state]
 
         def restrict(self, cell):
-            possible = False
+            # possible = False
             direction = self.get_direction(cell)
             possible_states = []
             for state in self.states:
                 for rule in self.cell_map.ruleSet:
-                    if (rule[0] == state.name and rule[1] == cell.state.name and rule[2] == direction) or \
-                            (rule[1] == state.name and rule[0] == cell.state.name and rule[2] == direction):
-                        possible = True
-                if possible:
-                    possible_states.append(state)
-                possible = False
+                    if cell.state is None:
+                        for cell_state in cell.states:
+                            if rule[2] == direction and ((rule[0] == state.name and rule[1] == cell_state.name) or
+                                                         (rule[1] == state.name and rule[0] == cell_state.name)):
+                                possible_states.append(state)
+                    else:
+                        if (rule[0] == state.name and rule[1] == cell.state.name and rule[2] == direction) or \
+                                (rule[1] == state.name and rule[0] == cell.state.name and rule[2] == direction):
+                            possible_states.append(state)
+                # if possible:
+                #     possible_states.append(state)
+                # possible = False
+            changed = not (len(self.states) == len(possible_states))
             self.states = possible_states
             if len(self.states) == 0:
                 self.cell_map.hasContradiction = True
+            return changed
 
         def get_direction(self, cell):
             if cell.x > self.x and cell.y == self.y:
@@ -162,5 +173,4 @@ class Map:
                 return self.cell_map.directions.LEFT
             if cell.x == self.x and cell.y > self.y:
                 return self.cell_map.directions.DOWN
-            if cell.x == self.x and cell.y < self.y:
-                return self.cell_map.directions.UP
+            return self.cell_map.directions.UP

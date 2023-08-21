@@ -6,7 +6,7 @@ from view import TUI, GUI
 
 def run_algorithm(size):
     cell_map = Map(size)
-    cell_map.run()
+    cell_map.create_map()
     return cell_map.is_solved()
 
 
@@ -17,7 +17,7 @@ def run_algorithm_print(size, print_stepwise_map=False):
     while not (cell_map.is_solved() and fails < 5):
         if print_stepwise_map:
             UI.print_map(cell_map)
-        cell = cell_map.find_lowest_entropy()
+        cell = cell_map.find_lowest_entropy_cell()
         cell_map.collapse(cell)
         if cell_map.hasContradiction:
             cell_map.reset()
@@ -42,7 +42,7 @@ def time_test(size=20, iterations=100):
     print(str(successes), 'successes and', str(iterations-successes), 'failures')
 
 
-# run_algorithm_print(40, print_stepwise_map=True)
-# run_algorithm_print(50)
-run_algorithm(50)
-# time_test()
+# run_algorithm_print(10, print_stepwise_map=True)
+run_algorithm_print(50)
+# run_algorithm(50)
+# time_test(size=50, iterations=25)
