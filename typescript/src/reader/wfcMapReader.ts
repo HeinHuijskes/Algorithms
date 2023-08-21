@@ -60,7 +60,7 @@ export class WfcMapReader {
     return reducedRules
   }
 
-  static getTiles = (inputMap: string[][], colouring) => {
+  static getTiles = (inputMap: string[][], colouring: null|Record<string,string>) => {
     let uniqueTiles = []
     inputMap.map((row) => row.map((cell) => { if (!uniqueTiles.includes(cell)) { uniqueTiles.push(cell) } }))
 

@@ -80,7 +80,7 @@ describe('WFC Reader', () => {
   })
   describe('Gets tiles', () => {
     test('Formats tiles correctly', () => {
-      const tiles = WfcMapReader.getTiles(testMap)
+      const tiles = WfcMapReader.getTiles(testMap, null)
       expect(tiles.length).toBe(3)
 
       expect(tiles[0].name).toBe('SEA')
