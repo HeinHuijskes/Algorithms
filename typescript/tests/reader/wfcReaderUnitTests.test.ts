@@ -1,5 +1,5 @@
-import {beforeAll, describe, expect, test} from "vitest";
-import {WfcMapReader} from "../../src/reader/wfcMapReader";
+import { beforeAll, describe, expect, test } from "vitest";
+import { WfcMapReader } from "../../src/reader/wfcMapReader";
 
 let testMap: string[][]
 let cell: string
@@ -75,6 +75,16 @@ describe('WFC Reader', () => {
       expect(ruleSet.length).toBe(1)
       expect(ruleSet[0].firstTile).toBe('SEA')
       expect(ruleSet[0].secondTile).toBe('COAST')
+      expect(ruleSet[0].direction).toBe('RIGHT')
+    })
+
+    test('Removes reversed self copies', () => {
+      ruleSet = [{firstTile: 'SEA', secondTile: 'SEA', direction: 'RIGHT'},
+                {firstTile: 'SEA', secondTile: 'SEA', direction: 'LEFT'},]
+      ruleSet = WfcMapReader.reduceRules(ruleSet)
+      expect(ruleSet.length).toBe(1)
+      expect(ruleSet[0].firstTile).toBe('SEA')
+      expect(ruleSet[0].secondTile).toBe('SEA')
       expect(ruleSet[0].direction).toBe('RIGHT')
     })
   })
