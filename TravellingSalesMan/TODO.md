@@ -5,8 +5,7 @@
     - Amount of routes considered
     - Length of shortest route found
 - Replace the print statements by in-terminal text
-- Add a progress bar and timer
+- Add a progress bar
 - Add stats bars
-- Add button click feedback (colouring)
 - Add cooler and more efficient algorithms
-- Add python 3.12 and threading
+- Add more/better threading
