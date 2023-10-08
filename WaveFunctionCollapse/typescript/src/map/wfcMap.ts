@@ -88,14 +88,25 @@ export class WfcMap {
     // this.propagateChange(cell)
   }
 
-  propagateChange = (cell: WfcCell) => {
+  propagateChange = (changedCell: WfcCell) => {
     // TODO: properly implement propagation
-    let changeQueue = this.neighbours(cell)
+    // Small idea: propagate to all neighbours, and if they change at all, propagate to their neighbours too.
+    // Keeping track of changed cells should not be necessary, since when a cell no longer changes it should stop
+    // propagating. It is important that the change checker/updater works accurately, since otherwise infinite loops are
+    // very easily started, or the board just collapses to one or zero states.
+    //
+    // Big idea: implement propagation based on rules.
+    // Side note: probably requires/benefits from a rewrite/extension of the rule class.
+    // Propagate starting from the changed cell, and keep a list of all changed and not-propagated cells. For each of
+    // these cells, loop over the ruleSet of the map, and see what cells could be affected by each rule when the current
+    // considered cell changes. Then for each of these cells, apply any potential change, and if so, add them to the
+    // queue.
+    let changeQueue = this.neighbours(changedCell)
     let queueCell = null as null|WfcCell
     let change = false
     while (changeQueue.length > 0) {
       queueCell = changeQueue.pop()
-      change = cell.restrictPropagate(queueCell)
+      change = changedCell.restrictPropagate(queueCell)
       if (this.hasContradiction) {
         break
       }
