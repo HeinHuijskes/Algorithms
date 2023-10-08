@@ -1,0 +1,12 @@
+- Add a margin to dot placement (to not hit the edge)
+- Add more fun facts about found routes in the return object (perhaps make this a class)
+    - Average length of considered routes
+    - Maximum length of considered routes
+    - Amount of routes considered
+    - Length of shortest route found
+- Replace the print statements by in-terminal text
+- Add a progress bar and timer
+- Add stats bars
+- Add button click feedback (colouring)
+- Add cooler and more efficient algorithms
+- Add python 3.12 and threading
