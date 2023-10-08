@@ -1,4 +1,5 @@
 from random import random
+from threading import Thread
 import math
 
 def getRandomPosition(width, height, margin=0.05):
@@ -11,17 +12,39 @@ def getRandomPositions(width, height, amount):
     return positions
 
 def bruteForce(positions):
+    # routeroutes = [[] for i in range(len(positions))]
     routes = []
-    firstRoute = []
-    for i in range(len(positions)):
-        firstRoute.append(i)
+    firstRoute = [i for i in range(len(positions))]
+    # firstRoutes = []
+    # for i in range(len(positions)):
+        # firstRoute.append(i)
     
     # print(f'positions: {positions}')
+
+    # threads = []
+    # for i in range(len(positions)):
+        # threads.append(Thread(target=getAllRoutesRecurse, args=(firstRoute, 1, routeroutes[i])))
 
     getAllRoutesRecurse(firstRoute, 1, routes)
     # print(f'Routes: {routes}')
     print(f'Checking {len(routes)} routes to find the best one')
-    bestRoute = findBestRoute(routes, positions)
+
+    threads = []
+    bestRoutes = []
+    step = len(routes) // len(positions)
+    for i in range(len(positions)):
+        subset = routes[step*i:step*(i+1)]
+        threads.append(Thread(target=findBestRoute, args=(subset, positions, bestRoutes)))
+        threads[i].start()
+        # bestRoute = findBestRoute(routes, positions)
+    
+    for i in range(len(threads)):
+        threads[i].join()
+        # print(f'Joined thread {i}')
+    
+    # print(f'bestRoutes has size {len(bestRoutes)}')
+    bestRoute = findBestRoute(bestRoutes, positions)
+    
     print(f'Found the best route! It has length {getRouteLength(positions, bestRoute)}')
     orderedPositions = []
     for i in range(len(positions)):
@@ -42,7 +65,7 @@ def getAllRoutesRecurse(route, depth, routes):
         currentRoute[i] = route[depth]
         getAllRoutesRecurse(currentRoute, depth+1, routes)
 
-def findBestRoute(routes, positions):
+def findBestRoute(routes, positions, bestRoutes=[]):
     bestRoute = routes[0]
     bestLength = getRouteLength(positions, bestRoute)
     for route in routes:
@@ -51,6 +74,7 @@ def findBestRoute(routes, positions):
             bestLength = length
             bestRoute = route
     
+    bestRoutes.append(bestRoute)
     return bestRoute
 
 def getRouteLength(positions, route):

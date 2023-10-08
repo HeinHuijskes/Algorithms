@@ -1,3 +1,4 @@
+from threading import Thread, active_count
 import pygame
 
 from parameters import *
@@ -10,6 +11,8 @@ clock = pygame.time.Clock()
 buttons = []
 positions = getRandomPositions(WIDTH-MENU_WIDTH, HEIGHT, DOT_NUM)
 solution = None
+threadStarted = False
+bruteForceThread = None
 
 def run():
     running = True
@@ -18,6 +21,10 @@ def run():
         drawDot(position)
 
     while running:
+        if solution != None and threadStarted:
+            bruteForceThread.join()
+            threadStarted = False
+            print(f'Thread joined! Active threads: {active_count()}')
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -54,7 +61,10 @@ def checkMouseEvent(position):
 
 def performAction(action):
     if action == "bruteforce":
-        doBruteForce()
+        bruteForceThread = Thread(target=doBruteForce)
+        threadStarted = True
+        bruteForceThread.start()
+        # doBruteForce()
 
 def doBruteForce():
     solution, route = bruteForce(positions)
