@@ -4,13 +4,13 @@ from button import Button
 
 class Runner():
     buttons: list[Button]
-    def __init__(self, objects=None, parameters=None, buttons=None) -> None:
-        self.objects = objects
+    def __init__(self, drawables=None, parameters=None, buttons=None) -> None:
+        self.drawables = drawables
         self.parameters = parameters
         self.buttons = buttons
 
     def run(self):
         controller = Controller(UI(), self.parameters)
-        controller.setObjects(self.objects)
+        controller.setDrawables(self.drawables)
         controller.ui.setButtons(self.buttons)
         controller.run()

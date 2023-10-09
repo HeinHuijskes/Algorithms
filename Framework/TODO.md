@@ -8,11 +8,11 @@
 - [x] Add window title and icon
 - [x] Add small buttons
 - [x] Objectify parameters
+- [x] Generalize object drawing
 - [ ] Add a progress bar
 - [ ] Add stats bars
 - [ ] Move logging to the GUI
 - [ ] Add testing
-- [ ] Generalize object drawing
 - [ ] Add button blocking when others are in use
 - [ ] Add automatic text centering (and scaling)
 - [ ] Add positional text block

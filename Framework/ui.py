@@ -3,6 +3,7 @@ import pygame
 from button import Button
 from timerClass import Timer
 from uiSettings import UISettings
+from drawable import Drawable
 
 class UI():
     screen = None
@@ -32,6 +33,12 @@ class UI():
             # Move the current position sideways by the size of the button and a margin
             position = (position[0] + button.buttonSize * smallSize, position[1])
         self.buttons = buttons
+    
+    def drawObject(self, drawable: Drawable):
+        if drawable.drawType == "dot":
+            self.drawDot(drawable.value)
+        else:
+            self.log(f'Unrecognized drawtype "{drawable.drawType}"')
 
     def drawDot(self, position):
         pygame.draw.circle(self.screen, self.settings.dotColour, position, self.settings.dotSize)

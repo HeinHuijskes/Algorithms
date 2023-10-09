@@ -6,16 +6,17 @@ sys.path.append("../Algorithms/Framework")
 from Framework.controller import Controller
 from Framework.runner import Runner
 from Framework.button import Button
+from Framework.drawable import Drawable
 from TSMAlgorithm import getRandomPositions, bruteForce
 
 from Framework.uiSettings import UISettings
 from tsmparams import TSMParameters
 
 width, height, = UISettings.width - UISettings.menuWidth, UISettings.height
-objects={"positions": getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)}
+positions=getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)
 
 def bruteForceAction(controller: Controller, button: Button):
-    positions = controller.objects["positions"]
+    positions = [drawable.value for drawable in controller.getDrawables()]
     controller.startTimer()
     controller.timer.toggle()
     solution = bruteForce(positions, controller)
@@ -25,9 +26,7 @@ def bruteForceAction(controller: Controller, button: Button):
 
 def resetDots(controller: Controller, button: Button):
     positions = getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)
-    objects = controller.getObjects()
-    objects["positions"] = positions
-    controller.setObjects(objects)
+    controller.setDrawables(Drawable.makeDrawables(positions, "dot"))
     controller.setScreen()
     controller.deactivate(button)
 
@@ -50,8 +49,7 @@ def minusTen(controller: Controller, button: Button):
     changeDots(-10, controller, button)
 
 def changeDots(amount: int, controller: Controller, button: Button):
-    objects = controller.getObjects()
-    positions = objects["positions"]
+    positions = Drawable.unMakeDrawables(controller.getDrawables())
     added = len(positions)
     
     if amount > 0:
@@ -63,9 +61,8 @@ def changeDots(amount: int, controller: Controller, button: Button):
                 positions = positions[1:]
             else:
                 break
-    
-    objects["positions"] = positions
-    controller.setObjects(objects)
+
+    controller.setDrawables(Drawable.makeDrawables(positions, "dot"))
     controller.setScreen()
     added = abs(len(positions) - added)
     if amount > 0:
@@ -83,5 +80,5 @@ buttons = [
     Button(label="-1", action=minusOne, buttonSize=1, fontSize=20, textPadding=10),
 ]
 
-runner = Runner(objects, parameters=TSMParameters(), buttons=buttons)
+runner = Runner(Drawable.makeDrawables(positions, "dot"), parameters=TSMParameters(), buttons=buttons)
 runner.run()

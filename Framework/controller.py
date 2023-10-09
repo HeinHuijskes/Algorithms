@@ -4,25 +4,26 @@ from threading import Thread
 from ui import UI
 from button import Button
 from timerClass import Timer
+from drawable import Drawable
 
 class Controller():
     ui: UI
     clock: pygame.time.Clock
     timer: Timer
     button: list[Button]
+    drawables: list[Drawable]
     def __init__(self, ui, parameters) -> None:
         self.ui = ui
         self.parameters = parameters
-        self.objects = {}
         self.timer = Timer()
         self.clock = pygame.time.Clock()
         self.algorithmResult = None
 
-    def getObjects(self):
-        return self.objects
+    def getDrawables(self):
+        return self.drawables
 
-    def setObjects(self, objects):
-        self.objects = objects
+    def setDrawables(self, drawables: list[Drawable]):
+        self.drawables = drawables
     
     def run(self):
         running = True
@@ -44,8 +45,8 @@ class Controller():
 
     def setScreen(self):
         self.ui.drawScreen()
-        for position in self.objects["positions"]:
-            self.ui.drawDot(position)
+        for drawable in self.drawables:
+            self.ui.drawObject(drawable)
     
     def startTimer(self):
         self.timer.setTime(pygame.time.get_ticks())
