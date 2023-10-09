@@ -3,7 +3,7 @@ import sys
 sys.path.append("../Algorithms")
 sys.path.append("../Algorithms/Framework")
 
-from Framework.console import Console
+from Framework.controller import Controller
 from Framework.runner import Runner
 from Framework.button import Button
 from TSMAlgorithm import getRandomPositions, bruteForce
@@ -14,22 +14,22 @@ from tsmparams import TSMParameters
 width, height, = UISettings.width - UISettings.menuWidth, UISettings.height
 objects={"positions": getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)}
 
-def bruteForceAction(console: Console, button: Button):
-    positions = console.objects["positions"]
-    console.startTimer()
-    console.timer.toggle()
-    solution = bruteForce(positions, console)
-    console.timer.toggle()
-    showSolution(console.ui, solution)
-    console.deactivate(button)
+def bruteForceAction(controller: Controller, button: Button):
+    positions = controller.objects["positions"]
+    controller.startTimer()
+    controller.timer.toggle()
+    solution = bruteForce(positions, controller)
+    controller.timer.toggle()
+    showSolution(controller.ui, solution)
+    controller.deactivate(button)
 
-def resetDots(console: Console, button: Button):
+def resetDots(controller: Controller, button: Button):
     positions = getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)
-    objects = console.getObjects()
+    objects = controller.getObjects()
     objects["positions"] = positions
-    console.setObjects(objects)
-    console.setScreen()
-    console.deactivate(button)
+    controller.setObjects(objects)
+    controller.setScreen()
+    controller.deactivate(button)
 
 def showSolution(ui, solution):
     prev = solution[-1]
@@ -37,20 +37,20 @@ def showSolution(ui, solution):
         ui.drawLine(prev, point, "red")
         prev = point
 
-def plusOne(console: Console, button: Button):
-    changeDots(1, console, button)
+def plusOne(controller: Controller, button: Button):
+    changeDots(1, controller, button)
 
-def plusTen(console: Console, button: Button):
-    changeDots(10, console, button)
+def plusTen(controller: Controller, button: Button):
+    changeDots(10, controller, button)
     
-def minusOne(console: Console, button: Button):
-    changeDots(-1, console, button)
+def minusOne(controller: Controller, button: Button):
+    changeDots(-1, controller, button)
     
-def minusTen(console: Console, button: Button):
-    changeDots(-10, console, button)
+def minusTen(controller: Controller, button: Button):
+    changeDots(-10, controller, button)
 
-def changeDots(amount: int, console: Console, button: Button):
-    objects = console.getObjects()
+def changeDots(amount: int, controller: Controller, button: Button):
+    objects = controller.getObjects()
     positions = objects["positions"]
     added = len(positions)
     
@@ -65,14 +65,14 @@ def changeDots(amount: int, console: Console, button: Button):
                 break
     
     objects["positions"] = positions
-    console.setObjects(objects)
-    console.setScreen()
+    controller.setObjects(objects)
+    controller.setScreen()
     added = abs(len(positions) - added)
     if amount > 0:
-        console.ui.log(f'Added {added} dots')
+        controller.ui.log(f'Added {added} dots')
     else: 
-        console.ui.log(f'Removed {added} dots')
-    console.deactivate(button)
+        controller.ui.log(f'Removed {added} dots')
+    controller.deactivate(button)
 
 buttons = [
     Button(label="Brute force", action=bruteForceAction),

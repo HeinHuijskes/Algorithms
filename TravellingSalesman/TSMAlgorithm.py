@@ -11,15 +11,15 @@ def getRandomPositions(width, height, amount, margin=0):
         positions.append(getRandomPosition(width, height, margin))
     return positions
 
-def bruteForce(positions, console=None):
+def bruteForce(positions, controller=None):
     if len(positions) <= 3:
         return positions
     routes = []
     firstRoute = [i for i in range(len(positions))]
 
     getAllRoutesRecurse(firstRoute, 1, routes)
-    if console != None:
-        console.ui.log(f'Checking {len(routes)} routes to find the best one')
+    if controller != None:
+        controller.ui.log(f'Checking {len(routes)} routes to find the best one')
 
     threads = []
     bestRoutes = []
@@ -33,8 +33,8 @@ def bruteForce(positions, console=None):
     # Find the best result out of all best results from different threads
     bestRoute = findBestRoute(bestRoutes, positions)
 
-    if console != None:
-        console.ui.log(f'Found the best route! It has length {getRouteLength(positions, bestRoute)}')
+    if controller != None:
+        controller.ui.log(f'Found the best route! It has length {getRouteLength(positions, bestRoute)}')
     orderedPositions = []
     for i in range(len(positions)):
         orderedPositions.append(positions[bestRoute[i]])

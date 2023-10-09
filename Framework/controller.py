@@ -5,7 +5,7 @@ from ui import UI
 from button import Button
 from timerClass import Timer
 
-class Console():
+class Controller():
     ui: UI
     clock: pygame.time.Clock
     timer: Timer

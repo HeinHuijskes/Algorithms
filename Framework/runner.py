@@ -1,5 +1,5 @@
 from ui import UI
-from console import Console
+from Framework.controller import Controller
 from button import Button
 
 class Runner():
@@ -10,7 +10,7 @@ class Runner():
         self.buttons = buttons
 
     def run(self):
-        console = Console(UI(), self.parameters)
-        console.setObjects(self.objects)
-        console.ui.setButtons(self.buttons)
-        console.run()
+        controller = Controller(UI(), self.parameters)
+        controller.setObjects(self.objects)
+        controller.ui.setButtons(self.buttons)
+        controller.run()
