@@ -11,7 +11,7 @@ def getRandomPositions(width, height, amount):
         positions.append(getRandomPosition(width, height))
     return positions
 
-def bruteForce(positions):
+def bruteForce(positions, console):
     # routeroutes = [[] for i in range(len(positions))]
     routes = []
     firstRoute = [i for i in range(len(positions))]
@@ -49,7 +49,12 @@ def bruteForce(positions):
     orderedPositions = []
     for i in range(len(positions)):
         orderedPositions.append(positions[bestRoute[i]])
-    return orderedPositions, bestRoute
+    
+    # TODO: move this to console somehow
+    console.objects["solution"] = orderedPositions
+    console.algorithmFinished = True
+    console.runTimer = False
+    return
     
 def getAllRoutesRecurse(route, depth, routes):
     if (depth == len(route)-1):
