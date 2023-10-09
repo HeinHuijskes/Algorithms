@@ -13,3 +13,4 @@
 - [ ] Add button blocking when others are in use
 - [ ] Abstract timer to class
 - [ ] Add small buttons
+- [ ] Add window title and icon

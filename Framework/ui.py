@@ -11,7 +11,7 @@ class UI():
     def __init__(self, logging=True) -> None:
         # TODO: Add setting overrides
         self.screen = pygame.display.set_mode((parameters["screen"]["width"], parameters["screen"]["height"]))
-        self.uiParams = parameters
+        self.uiparams = parameters
         self.logging=logging
     
     def addButton(self, button: Button):
@@ -22,7 +22,7 @@ class UI():
         self.buttons.append(button)
 
     def drawDot(self, position):
-        dot = self.uiParams["dots"]
+        dot = self.uiparams["dots"]
         pygame.draw.circle(self.screen, dot["colour"], position, dot["size"])
 
     def drawButtonOutline(self, button: Button, colour):
@@ -40,12 +40,12 @@ class UI():
         self.screen.blit(text, (button.position[0]+10, button.position[1]+10))
 
     def clearOutputScreen(self):
-        scr = self.uiParams["screen"]
+        scr = self.uiparams["screen"]
         x, y, width, height = 0, 0, scr["width"]-scr["menu-width"], scr["height"]
         pygame.draw.rect(self.screen, scr["bg-colour"], pygame.Rect(x, y, width, height))
 
     def drawScreen(self):
-        scr = self.uiParams["screen"]
+        scr = self.uiparams["screen"]
         self.screen.fill(scr["bg-colour"])
         self.clearOutputScreen()
         pygame.draw.rect(self.screen, "white", pygame.Rect(scr["width"]-scr["menu-width"], 0, scr["menu-width"], scr["height"]))
@@ -55,7 +55,7 @@ class UI():
             self.drawButton(button)
 
     def drawTimer(self, time):
-        scr = self.uiParams["screen"]
+        scr = self.uiparams["screen"]
         x = scr["width"] - scr["menu-width"]+10
         y = scr["height"] - 30
         pygame.draw.rect(self.screen, "white", pygame.Rect(x, y, 200, 30))
