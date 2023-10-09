@@ -13,3 +13,8 @@ class UISettings():
 
     dotSize = 4
     dotColour = "white"
+
+    font="Corbel"
+    fontSize = 25
+    fontColour = "white"
+    padding = 10

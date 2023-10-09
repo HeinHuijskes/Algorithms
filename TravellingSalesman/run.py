@@ -87,5 +87,8 @@ def addDot(controller: Controller, position: ()):
     controller.setScreen()
     controller.ui.log(f'Clicked at {position}')
 
-runner = Runner(Drawable.makeDrawables(positions, "dot"), TSMParameters(), buttons, inFieldAction=addDot)
+def amountOfDotsText(controller):
+    return (f'{len(controller.getDrawables())} Dots', 120)
+
+runner = Runner(Drawable.makeDrawables(positions, "dot"), TSMParameters(), buttons, inFieldAction=addDot, topText=amountOfDotsText)
 runner.run()

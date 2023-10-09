@@ -46,6 +46,13 @@ class UI():
     def drawButtonOutline(self, button: Button, colour):
         pos, size = button.position, button.size
         pygame.draw.rect(self.screen, colour, pygame.Rect(pos[0], pos[1], size[0], size[1]), button.borderSize)
+
+    def drawTopText(self, textString, x):
+        rectangle = pygame.Rect(self.settings.width-x-self.settings.menuWidth, 0, x, 50)
+        pygame.draw.rect(self.screen, self.settings.bgColour, rectangle)
+        font = pygame.font.SysFont(self.settings.font, self.settings.fontSize)
+        text = font.render(textString, True, self.settings.fontColour)
+        self.screen.blit(text, (self.settings.width-x-self.settings.menuWidth + self.settings.padding, self.settings.padding))
         
     def drawButton(self, button: Button):
         if button.active:

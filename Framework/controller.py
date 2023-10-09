@@ -12,13 +12,14 @@ class Controller():
     timer: Timer
     button: list[Button]
     drawables: list[Drawable]
-    def __init__(self, ui, parameters, inFieldAction=None) -> None:
+    def __init__(self, ui, parameters, inFieldAction=None, topText=None) -> None:
         self.ui = ui
         self.parameters = parameters
         self.timer = Timer()
         self.clock = pygame.time.Clock()
         self.algorithmResult = None
         self.inFieldAction = inFieldAction
+        self.topText = topText
 
     def getDrawables(self):
         return self.drawables
@@ -40,6 +41,8 @@ class Controller():
                     self.checkMouseEvent(pygame.mouse.get_pos())
             if self.timer.runTimer:
                 self.showTimer()
+            if self.topText != None:
+                self.showTopText(self.topText)
             pygame.display.flip()
             self.clock.tick(60)
         pygame.quit()
@@ -55,6 +58,10 @@ class Controller():
     def showTimer(self):
         time = (pygame.time.get_ticks()-self.timer.getTime()) // 100 / 10
         self.ui.drawTimer(time, self.timer)
+
+    def showTopText(self, topTextFunction):
+        text, x = topTextFunction(self)
+        self.ui.drawTopText(text, x)
 
     def checkMouseEvent(self, position):
         x, y = position
