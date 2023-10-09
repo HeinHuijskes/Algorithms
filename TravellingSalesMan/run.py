@@ -1,8 +1,13 @@
-from console import Console
-from runner import Runner
+import sys
+
+sys.path.append("../Algorithms")
+sys.path.append("../Algorithms/Framework")
+
+from Framework.console import Console
+from Framework.runner import Runner
 from TSMAlgorithm import getRandomPositions, bruteForce
 
-from uiparams import parameters as uiparams
+from Framework.uiparams import parameters as uiparams
 from tsmparams import parameters
 
 scr = uiparams["screen"]

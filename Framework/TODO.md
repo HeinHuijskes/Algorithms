@@ -1,0 +1,10 @@
+- [x] Extract functionality to a general framework
+- [x] Add a timer
+- [x] Add button click feedback (colouring)
+- [x] Add threading
+- [ ] Add a progress bar
+- [ ] Add stats bars
+- [ ] Move logging to the GUI
+- [ ] Add testing
+- [ ] Improve menubar layout
+- [ ] Generalize object drawing

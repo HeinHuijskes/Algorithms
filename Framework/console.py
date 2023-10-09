@@ -2,7 +2,6 @@ import pygame
 from threading import Thread
 
 from ui import UI
-from TSMAlgorithm import bruteForce
 
 class Console():
     ui: UI
