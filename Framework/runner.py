@@ -2,8 +2,6 @@ from ui import UI
 from console import Console
 from button import Button
 
-from uiparams import parameters as uiparams
-
 class Runner():
     buttons: list[Button]
     def __init__(self, objects=None, params=None, buttons=None) -> None:

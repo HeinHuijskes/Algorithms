@@ -3,18 +3,20 @@ from threading import Thread
 
 from ui import UI
 from button import Button
+from timerClass import Timer
 
 class Console():
     ui: UI
     clock: pygame.time.Clock
+    timer: Timer
+    button: list[Button]
     def __init__(self, ui, parameters) -> None:
         self.ui = ui
         self.parameters = parameters
         self.clock = pygame.time.Clock()
+        self.timer = Timer()
         self.buttons = []
         self.objects = {}
-        self.timer = 0
-        self.runTimer = False
         self.algorithmResult = None
 
     def getObjects(self):
@@ -34,7 +36,7 @@ class Console():
                     running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     self.checkMouseEvent(pygame.mouse.get_pos())
-            if self.runTimer:
+            if self.timer.runTimer:
                 self.showTimer()
             pygame.display.flip()
             self.clock.tick(60)
@@ -50,11 +52,11 @@ class Console():
             self.ui.drawDot(position)
     
     def startTimer(self):
-        self.timer = pygame.time.get_ticks()
+        self.timer.setTime(pygame.time.get_ticks())
 
     def showTimer(self):
-        time = (pygame.time.get_ticks()-self.timer) // 100 / 10
-        self.ui.drawTimer(time)
+        time = (pygame.time.get_ticks()-self.timer.getTime()) // 100 / 10
+        self.ui.drawTimer(time, self.timer)
 
     def checkMouseEvent(self, position):
         actionFound = False

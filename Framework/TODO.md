@@ -4,6 +4,7 @@
 - [x] Add threading
 - [x] Replace dict passing of button with proper classes and objects
 - [x] Improve menubar layout
+- [x] Abstract timer to class
 - [ ] Add a progress bar
 - [ ] Add stats bars
 - [ ] Move logging to the GUI
@@ -11,6 +12,6 @@
 - [ ] Generalize object drawing
 - [ ] Objectify parameters etc. similar to button
 - [ ] Add button blocking when others are in use
-- [ ] Abstract timer to class
 - [ ] Add small buttons
 - [ ] Add window title and icon
+- [ ] List in-file TODOs here

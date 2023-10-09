@@ -2,13 +2,13 @@ from random import random
 from threading import Thread
 import math
 
-def getRandomPosition(width, height, margin=0.05):
-    return (random()*width, random()*height)
+def getRandomPosition(width, height, margin=0):
+    return (random()*(width-2*margin)+margin, random()*(height-2*margin)+margin)
 
-def getRandomPositions(width, height, amount):
+def getRandomPositions(width, height, amount, margin=0):
     positions = []
     for i in range(amount):
-        positions.append(getRandomPosition(width, height))
+        positions.append(getRandomPosition(width, height, margin))
     return positions
 
 def bruteForce(positions, console=None):

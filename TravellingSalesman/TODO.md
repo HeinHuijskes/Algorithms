@@ -1,10 +1,10 @@
 - [x] Allow object resetting and redrawing
+- [x] Add a margin to dot placement (to not hit the edge)
 - [ ] Add more fun facts and log them
     - [ ] Average length of considered routes
     - [ ] Maximum length of considered routes
     - [x] Amount of routes considered
     - [x] Length of shortest route found
-- [ ] Add a margin to dot placement (to not hit the edge)
 - [ ] Add cooler and more efficient algorithms
 - [ ] Add testing
 - [ ] Add custom dot layout imports
