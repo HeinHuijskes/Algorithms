@@ -11,23 +11,15 @@ def getRandomPositions(width, height, amount):
         positions.append(getRandomPosition(width, height))
     return positions
 
-def bruteForce(positions, console):
-    # routeroutes = [[] for i in range(len(positions))]
+def bruteForce(positions, console=None):
     routes = []
     firstRoute = [i for i in range(len(positions))]
-    # firstRoutes = []
-    # for i in range(len(positions)):
-        # firstRoute.append(i)
-    
-    # print(f'positions: {positions}')
 
-    # threads = []
-    # for i in range(len(positions)):
-        # threads.append(Thread(target=getAllRoutesRecurse, args=(firstRoute, 1, routeroutes[i])))
-
+    # TODO: Generate all routes with multiple threads
     getAllRoutesRecurse(firstRoute, 1, routes)
-    # print(f'Routes: {routes}')
-    print(f'Checking {len(routes)} routes to find the best one')
+    # TODO: Find a better solution for logging (without a console)
+    if console != None:
+        console.ui.log(f'Checking {len(routes)} routes to find the best one')
 
     threads = []
     bestRoutes = []
@@ -36,25 +28,18 @@ def bruteForce(positions, console):
         subset = routes[step*i:step*(i+1)]
         threads.append(Thread(target=findBestRoute, args=(subset, positions, bestRoutes)))
         threads[i].start()
-        # bestRoute = findBestRoute(routes, positions)
-    
     for i in range(len(threads)):
         threads[i].join()
-        # print(f'Joined thread {i}')
-    
-    # print(f'bestRoutes has size {len(bestRoutes)}')
+    # Find the best result out of all best results from different threads
     bestRoute = findBestRoute(bestRoutes, positions)
-    
-    print(f'Found the best route! It has length {getRouteLength(positions, bestRoute)}')
+
+    if console != None:
+        console.ui.log(f'Found the best route! It has length {getRouteLength(positions, bestRoute)}')
     orderedPositions = []
     for i in range(len(positions)):
         orderedPositions.append(positions[bestRoute[i]])
-    
-    # TODO: move this to console somehow
-    console.objects["solution"] = orderedPositions
-    console.algorithmFinished = True
-    console.runTimer = False
-    return
+
+    return orderedPositions
     
 def getAllRoutesRecurse(route, depth, routes):
     if (depth == len(route)-1):
@@ -65,7 +50,6 @@ def getAllRoutesRecurse(route, depth, routes):
     getAllRoutesRecurse(route, depth+1, routes)
     for i in range(depth+1, len(route)):
         currentRoute = [i for i in route]
-        # print(f'Current route: {currentRoute}')
         currentRoute[depth] = route[i]
         currentRoute[i] = route[depth]
         getAllRoutesRecurse(currentRoute, depth+1, routes)

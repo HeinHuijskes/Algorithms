@@ -4,8 +4,10 @@
     - Maximum length of considered routes
     - Amount of routes considered
     - Length of shortest route found
-- Replace the print statements by in-terminal text
 - Add a progress bar
 - Add stats bars
 - Add cooler and more efficient algorithms
-- Add more/better threading
+- Move logging to the GUI
+- Add testing
+- Add custom dot layout imports
+- Add some cool custom dot layouts
