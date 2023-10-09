@@ -5,21 +5,32 @@ sys.path.append("../Algorithms/Framework")
 
 from Framework.console import Console
 from Framework.runner import Runner
+from Framework.button import Button
 from TSMAlgorithm import getRandomPositions, bruteForce
 
 from Framework.uiparams import parameters as uiparams
 from tsmparams import parameters
 
 scr = uiparams["screen"]
-positions = getRandomPositions(scr["width"]-scr["menu-width"], scr["height"], parameters["dots"]["amount"])
+width, height, amount = scr["width"]-scr["menu-width"], scr["height"], parameters["dots"]["amount"]
 
-def bruteForceAction(console: Console, button):
+def bruteForceAction(console: Console, button: Button):
+    positions = console.objects["positions"]
     console.startTimer()
     console.runTimer = True
     solution = bruteForce(positions, console)
     console.runTimer = False
     showSolution(console.ui, solution)
-    button["active"] = False
+    button.active = False
+    console.ui.drawButton(button)
+
+def resetDots(console: Console, button: Button):
+    positions = getRandomPositions(width, height, amount)
+    objects = console.getObjects()
+    objects["positions"] = positions
+    console.setObjects(objects)
+    console.setScreen()
+    button.active = False
     console.ui.drawButton(button)
 
 def showSolution(ui, solution):
@@ -29,12 +40,9 @@ def showSolution(ui, solution):
         prev = point
 
 buttons = [
-    {
-        "action": bruteForceAction,
-        "active": False,
-        "label": "Brute force",
-    },
+    Button(label="Brute force", action=bruteForceAction),
+    Button(label="Reset", action=resetDots)
 ]
 
-runner = Runner(objects={"positions": positions}, params=parameters, buttons=buttons)
+runner = Runner(objects={"positions": getRandomPositions(width, height, amount)}, params=parameters, buttons=buttons)
 runner.run()

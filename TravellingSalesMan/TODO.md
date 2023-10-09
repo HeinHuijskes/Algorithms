@@ -1,4 +1,4 @@
-
+- [x] Allow object resetting and redrawing
 - [ ] Add more fun facts and log them
     - [ ] Average length of considered routes
     - [ ] Maximum length of considered routes
@@ -11,4 +11,4 @@
     - [ ] Add import functionality
     - [ ] Add load buttons
     - [ ] Add some cool presets
-- [ ] Allow object resetting and redrawing
+- [ ] Add button to increase and decrease number of dots

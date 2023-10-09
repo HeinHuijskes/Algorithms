@@ -2,6 +2,7 @@ import pygame
 from threading import Thread
 
 from ui import UI
+from button import Button
 
 class Console():
     ui: UI
@@ -16,12 +17,16 @@ class Console():
         self.runTimer = False
         self.algorithmResult = None
 
+    def getObjects(self):
+        return self.objects
+
     def setObjects(self, objects):
         self.objects = objects
     
     def run(self):
         running = True
         pygame.init()
+        self.setButtons()
         self.setScreen()
         while running:
             for event in pygame.event.get():
@@ -40,9 +45,7 @@ class Console():
             self.ui.addButton(button)
 
     def setScreen(self):
-        self.setButtons()
-        self.ui.drawMenu()
-        # TODO: Change to more general functionality
+        self.ui.drawScreen()
         for position in self.objects["positions"]:
             self.ui.drawDot(position)
     
@@ -54,20 +57,22 @@ class Console():
         self.ui.drawTimer(time)
 
     def checkMouseEvent(self, position):
-        action = None
+        actionFound = False
         x, y = position
         for button in self.ui.buttons:
-            if button["active"]:
+            if button.active:
                 continue
-            pos, size = button["position"], button["size"]
+            pos, size = button.position, button.size
             if x > pos[0] and x < pos[0]+size[0] and y > pos[1] and y < pos[1]+size[1]:
-                action = button["action"]
+                actionFound = True
                 break
-        if action != None:
+        if actionFound:
             self.performAction(button)
+        else:
+            self.ui.log(f'Action not found!')
 
-    def performAction(self, button):
-        button["active"] = True
+    def performAction(self, button: Button):
+        button.active = True
         self.ui.drawButton(button)
-        actionThread = Thread(target=button["action"], args=(self, button))
+        actionThread = Thread(target=button.action, args=(self, button))
         actionThread.start()
