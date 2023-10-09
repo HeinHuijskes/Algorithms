@@ -1,0 +1,15 @@
+- [x] Allow object resetting and redrawing
+- [x] Add a margin to dot placement (to not hit the edge)
+- [x] Fix typo duplicate git folders problem
+- [ ] Add more fun facts and log them
+    - [ ] Average length of considered routes
+    - [ ] Maximum length of considered routes
+    - [x] Amount of routes considered
+    - [x] Length of shortest route found
+- [ ] Add cooler and more efficient algorithms
+- [ ] Add testing
+- [ ] Add custom dot layout imports
+    - [ ] Add import functionality
+    - [ ] Add load buttons
+    - [ ] Add some cool presets
+- [ ] Add button to increase and decrease number of dots
