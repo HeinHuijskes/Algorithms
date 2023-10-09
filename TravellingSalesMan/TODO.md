@@ -1,13 +1,19 @@
-- Add a margin to dot placement (to not hit the edge)
-- Add more fun facts about found routes in the return object (perhaps make this a class)
-    - Average length of considered routes
-    - Maximum length of considered routes
-    - Amount of routes considered
-    - Length of shortest route found
-- Add a progress bar
-- Add stats bars
-- Add cooler and more efficient algorithms
-- Move logging to the GUI
-- Add testing
-- Add custom dot layout imports
-- Add some cool custom dot layouts
+- [x] Extract functionality to a general framework
+- [x] Add a timer
+- [x] Add button click feedback (colouring)
+- [x] Add threading
+- [ ] Add more fun facts and log them
+    - [ ] Average length of considered routes
+    - [ ] Maximum length of considered routes
+    - [x] Amount of routes considered
+    - [x] Length of shortest route found
+- [ ] Add a margin to dot placement (to not hit the edge)
+- [ ] Add a progress bar
+- [ ] Add stats bars
+- [ ] Add cooler and more efficient algorithms
+- [ ] Move logging to the GUI
+- [ ] Add testing
+- [ ] Add custom dot layout imports
+    - [ ] Add import functionality
+    - [ ] Add load buttons
+    - [ ] Add some cool presets
