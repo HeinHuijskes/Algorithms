@@ -1,6 +1,7 @@
 - [x] Allow object resetting and redrawing
 - [x] Add a margin to dot placement (to not hit the edge)
 - [x] Fix typo duplicate git folders problem
+- [x] Add button to increase and decrease number of dots
 - [ ] Add more fun facts and log them
     - [ ] Average length of considered routes
     - [ ] Maximum length of considered routes
@@ -12,4 +13,5 @@
     - [ ] Add import functionality
     - [ ] Add load buttons
     - [ ] Add some cool presets
-- [ ] Add button to increase and decrease number of dots
+- [ ] Add dots onclick in field
+- [ ] Add dot counter

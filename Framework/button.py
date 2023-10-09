@@ -1,7 +1,10 @@
 class Button():
-    def __init__(self, label, action) -> None:
+    def __init__(self, label, action, buttonSize=4, fontSize=25, textPadding=10) -> None:
         self.label = label
         self.action = action
+        self.buttonSize = buttonSize
+        self.fontSize = fontSize
+        self.textPadding = textPadding
 
     active = False
     position = (610, 10)
@@ -9,9 +12,8 @@ class Button():
     padding = 10
     
     borderColour = "black"
-    borderSize = 4
+    borderSize = 2
     borderColourActive = "red"
 
     font = "Corbel"
-    fontSize = 25
     fontColour = "black"

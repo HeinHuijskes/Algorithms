@@ -30,7 +30,7 @@ class Console():
         pygame.init()
         pygame.display.set_caption(self.parameters["title"])
         pygame.display.set_icon(pygame.image.load(self.ui.settings.icon))
-        self.setButtons()
+        self.ui.setButtons(self.parameters["buttons"])
         self.setScreen()
         while running:
             for event in pygame.event.get():
@@ -43,10 +43,6 @@ class Console():
             pygame.display.flip()
             self.clock.tick(60)
         pygame.quit()
-
-    def setButtons(self):
-        for button in self.parameters["buttons"]:
-            self.ui.addButton(button)
 
     def setScreen(self):
         self.ui.drawScreen()
@@ -80,3 +76,7 @@ class Console():
         self.ui.drawButton(button)
         actionThread = Thread(target=button.action, args=(self, button))
         actionThread.start()
+
+    def deactivate(self, button: Button):
+        button.active = False
+        self.ui.drawButton(button)

@@ -12,10 +12,26 @@ class UI():
         self.logging = logging
         self.settings = settings
     
-    def addButton(self, button: Button):
-        for b in self.buttons:
-            button.position = (button.position[0], button.position[1] + button.size[1] + button.padding)
-        self.buttons.append(button)
+    def setButtons(self, buttons: list[Button]):
+        skipSize = Button.size[1] + Button.padding
+        smallSize = Button.size[0]//4
+        space = 4
+        position = Button.position
+        for button in buttons:
+            # If there is not enough space for this button, skip to the next row
+            if button.buttonSize > space:
+                space = 4
+                position = (Button.position[0], position[1] + skipSize)
+
+            space -= button.buttonSize
+            # Set the definitive position of this button
+            button.position = position
+            # Calculate and set the correct dimensions
+            buttonWidth = Button.size[0] - (4-button.buttonSize)*(smallSize) - Button.padding // 2
+            button.size = (buttonWidth, button.size[1])
+            # Move the current position sideways by the size of the button and a margin
+            position = (position[0] + button.buttonSize * smallSize, position[1])
+        self.buttons = buttons
 
     def drawDot(self, position):
         pygame.draw.circle(self.screen, self.settings.dotColour, position, self.settings.dotSize)
@@ -32,7 +48,7 @@ class UI():
         self.drawButtonOutline(button, colour)
         text = pygame.font.SysFont(button.font, button.fontSize).render(button.label, True, button.fontColour)
         # TODO: Find a way to center text
-        self.screen.blit(text, (button.position[0]+10, button.position[1]+10))
+        self.screen.blit(text, (button.position[0]+button.textPadding, button.position[1]+button.padding))
 
     def clearOutputScreen(self):
         x, y, width, height = 0, 0, self.settings.width - self.settings.menuWidth, self.settings.height

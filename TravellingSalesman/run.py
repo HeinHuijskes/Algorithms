@@ -13,6 +13,7 @@ from tsmparams import parameters
 
 width, height, = UISettings.width - UISettings.menuWidth, UISettings.height, 
 margin, amount = UISettings.margin, parameters["dots"]["amount"]
+objects={"positions": getRandomPositions(width, height, amount, margin)}
 
 def bruteForceAction(console: Console, button: Button):
     positions = console.objects["positions"]
@@ -21,8 +22,7 @@ def bruteForceAction(console: Console, button: Button):
     solution = bruteForce(positions, console)
     console.timer.toggle()
     showSolution(console.ui, solution)
-    button.active = False
-    console.ui.drawButton(button)
+    console.deactivate(button)
 
 def resetDots(console: Console, button: Button):
     positions = getRandomPositions(width, height, amount, margin)
@@ -30,8 +30,7 @@ def resetDots(console: Console, button: Button):
     objects["positions"] = positions
     console.setObjects(objects)
     console.setScreen()
-    button.active = False
-    console.ui.drawButton(button)
+    console.deactivate(button)
 
 def showSolution(ui, solution):
     prev = solution[-1]
@@ -39,10 +38,51 @@ def showSolution(ui, solution):
         ui.drawLine(prev, point, "red")
         prev = point
 
+def plusOne(console: Console, button: Button):
+    changeDots(1, console, button)
+
+def plusTen(console: Console, button: Button):
+    changeDots(10, console, button)
+    
+def minusOne(console: Console, button: Button):
+    changeDots(-1, console, button)
+    
+def minusTen(console: Console, button: Button):
+    changeDots(-10, console, button)
+
+def changeDots(amount: int, console: Console, button: Button):
+    objects = console.getObjects()
+    positions = objects["positions"]
+    added = len(positions)
+    
+    if amount > 0:
+        newPositions = getRandomPositions(width, height, amount, margin)
+        positions = positions + newPositions
+    else:
+        for i in range(-amount):
+            if len(positions) > 0:
+                positions = positions[1:]
+            else:
+                break
+    
+    objects["positions"] = positions
+    console.setObjects(objects)
+    console.setScreen()
+    added = abs(len(positions) - added)
+    if amount > 0:
+        console.ui.log(f'Added {added} dots')
+    else: 
+        console.ui.log(f'Removed {added} dots')
+    console.deactivate(button)
+
 buttons = [
     Button(label="Brute force", action=bruteForceAction),
-    Button(label="Reset", action=resetDots)
+    Button(label="Reset", action=resetDots),
+    Button(label="+1", action=plusOne, buttonSize=1, fontSize=20, textPadding=10),
+    Button(label="+10", action=plusTen, buttonSize=1, fontSize=20, textPadding=5),
+    Button(label="-10", action=minusTen, buttonSize=1, fontSize=20, textPadding=5),
+    Button(label="-1", action=minusOne, buttonSize=1, fontSize=20, textPadding=10),
 ]
 
-runner = Runner(objects={"positions": getRandomPositions(width, height, amount, margin)}, params=parameters, buttons=buttons)
+runner = Runner(objects, params=parameters, buttons=buttons)
 runner.run()
