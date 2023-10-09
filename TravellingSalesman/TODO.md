@@ -15,3 +15,5 @@
     - [ ] Add some cool presets
 - [ ] Add dots onclick in field
 - [ ] Add dot counter
+- [ ] Use threads for all routes generation
+- [ ] Improve logging from Algorithm

@@ -47,7 +47,6 @@ class UI():
             colour = button.borderColour
         self.drawButtonOutline(button, colour)
         text = pygame.font.SysFont(button.font, button.fontSize).render(button.label, True, button.fontColour)
-        # TODO: Find a way to center text
         self.screen.blit(text, (button.position[0]+button.textPadding, button.position[1]+button.padding))
 
     def clearOutputScreen(self):

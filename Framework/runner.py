@@ -4,13 +4,13 @@ from button import Button
 
 class Runner():
     buttons: list[Button]
-    def __init__(self, objects=None, params=None, buttons=None) -> None:
+    def __init__(self, objects=None, parameters=None, buttons=None) -> None:
         self.objects = objects
-        self.params = params
+        self.parameters = parameters
         self.buttons = buttons
 
     def run(self):
-        self.params["buttons"] = self.buttons
-        console = Console(UI(), self.params)
+        console = Console(UI(), self.parameters)
         console.setObjects(self.objects)
+        console.ui.setButtons(self.buttons)
         console.run()

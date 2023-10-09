@@ -12,12 +12,12 @@ def getRandomPositions(width, height, amount, margin=0):
     return positions
 
 def bruteForce(positions, console=None):
+    if len(positions) <= 3:
+        return positions
     routes = []
     firstRoute = [i for i in range(len(positions))]
 
-    # TODO: Generate all routes with multiple threads
     getAllRoutesRecurse(firstRoute, 1, routes)
-    # TODO: Find a better solution for logging (without a console)
     if console != None:
         console.ui.log(f'Checking {len(routes)} routes to find the best one')
 

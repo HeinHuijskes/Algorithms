@@ -1,6 +1,7 @@
-parameters = {
-    "title": "Traveling Salesman Algorithm",
-    "dots": {
-        "amount": 10,
-    },
-}
+from Framework.parameters import Parameters
+
+class TSMParameters(Parameters):
+    def __init__(self) -> None:
+        super().__init__(title="Travelling Salesman Algorithm")
+    
+    dots = 10

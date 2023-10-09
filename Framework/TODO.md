@@ -7,11 +7,12 @@
 - [x] Abstract timer to class
 - [x] Add window title and icon
 - [x] Add small buttons
+- [x] Objectify parameters
 - [ ] Add a progress bar
 - [ ] Add stats bars
 - [ ] Move logging to the GUI
 - [ ] Add testing
 - [ ] Generalize object drawing
-- [ ] Objectify parameters etc. similar to button
 - [ ] Add button blocking when others are in use
-- [ ] List in-file TODOs here
+- [ ] Add automatic text centering (and scaling)
+- [ ] Add positional text block

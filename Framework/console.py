@@ -13,10 +13,9 @@ class Console():
     def __init__(self, ui, parameters) -> None:
         self.ui = ui
         self.parameters = parameters
-        self.clock = pygame.time.Clock()
-        self.timer = Timer()
-        self.buttons = []
         self.objects = {}
+        self.timer = Timer()
+        self.clock = pygame.time.Clock()
         self.algorithmResult = None
 
     def getObjects(self):
@@ -28,9 +27,8 @@ class Console():
     def run(self):
         running = True
         pygame.init()
-        pygame.display.set_caption(self.parameters["title"])
+        pygame.display.set_caption(self.parameters.title)
         pygame.display.set_icon(pygame.image.load(self.ui.settings.icon))
-        self.ui.setButtons(self.parameters["buttons"])
         self.setScreen()
         while running:
             for event in pygame.event.get():

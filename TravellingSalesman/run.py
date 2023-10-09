@@ -9,11 +9,10 @@ from Framework.button import Button
 from TSMAlgorithm import getRandomPositions, bruteForce
 
 from Framework.uiSettings import UISettings
-from tsmparams import parameters
+from tsmparams import TSMParameters
 
-width, height, = UISettings.width - UISettings.menuWidth, UISettings.height, 
-margin, amount = UISettings.margin, parameters["dots"]["amount"]
-objects={"positions": getRandomPositions(width, height, amount, margin)}
+width, height, = UISettings.width - UISettings.menuWidth, UISettings.height
+objects={"positions": getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)}
 
 def bruteForceAction(console: Console, button: Button):
     positions = console.objects["positions"]
@@ -25,7 +24,7 @@ def bruteForceAction(console: Console, button: Button):
     console.deactivate(button)
 
 def resetDots(console: Console, button: Button):
-    positions = getRandomPositions(width, height, amount, margin)
+    positions = getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)
     objects = console.getObjects()
     objects["positions"] = positions
     console.setObjects(objects)
@@ -56,7 +55,7 @@ def changeDots(amount: int, console: Console, button: Button):
     added = len(positions)
     
     if amount > 0:
-        newPositions = getRandomPositions(width, height, amount, margin)
+        newPositions = getRandomPositions(width, height, amount, UISettings.margin)
         positions = positions + newPositions
     else:
         for i in range(-amount):
@@ -84,5 +83,5 @@ buttons = [
     Button(label="-1", action=minusOne, buttonSize=1, fontSize=20, textPadding=10),
 ]
 
-runner = Runner(objects, params=parameters, buttons=buttons)
+runner = Runner(objects, parameters=TSMParameters(), buttons=buttons)
 runner.run()
