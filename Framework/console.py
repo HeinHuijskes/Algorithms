@@ -28,6 +28,8 @@ class Console():
     def run(self):
         running = True
         pygame.init()
+        pygame.display.set_caption(self.parameters["title"])
+        pygame.display.set_icon(pygame.image.load(self.ui.settings.icon))
         self.setButtons()
         self.setScreen()
         while running:
