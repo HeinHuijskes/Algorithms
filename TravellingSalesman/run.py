@@ -80,5 +80,12 @@ buttons = [
     Button(label="-1", action=minusOne, buttonSize=1, fontSize=20, textPadding=10),
 ]
 
-runner = Runner(Drawable.makeDrawables(positions, "dot"), parameters=TSMParameters(), buttons=buttons)
+def addDot(controller: Controller, position: ()):
+    drawables = controller.getDrawables()
+    drawables.append(Drawable.makeDrawable(position, "dot"))
+    controller.setDrawables(drawables)
+    controller.setScreen()
+    controller.ui.log(f'Clicked at {position}')
+
+runner = Runner(Drawable.makeDrawables(positions, "dot"), TSMParameters(), buttons, inFieldAction=addDot)
 runner.run()

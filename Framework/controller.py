@@ -12,12 +12,13 @@ class Controller():
     timer: Timer
     button: list[Button]
     drawables: list[Drawable]
-    def __init__(self, ui, parameters) -> None:
+    def __init__(self, ui, parameters, inFieldAction=None) -> None:
         self.ui = ui
         self.parameters = parameters
         self.timer = Timer()
         self.clock = pygame.time.Clock()
         self.algorithmResult = None
+        self.inFieldAction = inFieldAction
 
     def getDrawables(self):
         return self.drawables
@@ -56,8 +57,15 @@ class Controller():
         self.ui.drawTimer(time, self.timer)
 
     def checkMouseEvent(self, position):
-        actionFound = False
         x, y = position
+        if self.inFieldAction != None\
+                    and x < self.ui.settings.width - self.ui.settings.menuWidth\
+                    and x > 0 and y > 0 and y < self.ui.settings.height:
+            actionThread = Thread(target=self.inFieldAction, args=(self, position))
+            actionThread.start()
+            return
+
+        actionFound = False
         for button in self.ui.buttons:
             if button.active:
                 continue

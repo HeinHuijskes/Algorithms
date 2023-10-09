@@ -9,6 +9,7 @@
 - [x] Add small buttons
 - [x] Objectify parameters
 - [x] Generalize object drawing
+- [x] Add infield click handling
 - [ ] Add a progress bar
 - [ ] Add stats bars
 - [ ] Move logging to the GUI
