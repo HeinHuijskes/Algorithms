@@ -40,7 +40,7 @@ class UI():
         if drawable.drawType == "dot":
             self.drawDot(drawable.value)
         else:
-            self.log(f'Unrecognized drawtype "{drawable.drawType}"')
+            self.log(f'Unrecognized drawtype "{drawable.drawType}"', warning=True)
 
     def drawDot(self, position):
         pygame.draw.circle(self.screen, self.settings.dotColour, position, self.settings.dotSize)
@@ -95,7 +95,7 @@ class UI():
         if self.showSolution != None:
             self.showSolution(self, solution)
         else:
-            self.log(f'No "showSolution" method found, cannot draw solution')
+            self.log(f'No "showSolution" method found, cannot draw solution', warning=True)
     
     def GUILog(self):
         width, height = self.settings.logSize
@@ -105,7 +105,7 @@ class UI():
         pygame.draw.rect(self.screen, self.settings.menuColour, rectangle)
 
         font = pygame.font.SysFont(self.settings.logFont, self.settings.logFontSize)
-        for i, log in enumerate(reversed(self.logs[-7:])):
+        for i, log in enumerate(self.logs[-7:]):
             text = font.render(log, True, self.settings.logFontColour)
             # text_rect = text.get_rect(center=(x+width/2, y+height/2))
             self.screen.blit(text, (x+margin, y + i*(margin)))
@@ -113,11 +113,9 @@ class UI():
     def cutLog(self, string):
         length = 0
         words = string.split(' ')
-        print(words)
         logs = []
         log = ""
         for word in words:
-            print(f'Length: {len(word)} + {length} = {len(word) + length}')
             if len(word) + length < 32:
                 log += word + ' '
                 length += len(word) + 1
@@ -125,18 +123,19 @@ class UI():
                 if length == 0:
                     logs.append(word)
                 else:
-                    print(f'log: {log}')
                     logs.append(log)
                     log = word + ' '
                     length = len(word) + 1
         if len(log) > 0:
             logs.append(log)
-        print(logs)
         return logs
 
-    def log(self, string):
-        logs = self.cutLog('> ' + string)
-        for log in reversed(logs):
+    def log(self, string, warning=False):
+        symbol = '> '
+        if warning:
+            symbol = '! '
+        logs = self.cutLog(symbol + string)
+        for log in logs:
             self.logs.append(log)
         if self.logging:
             if self.settings.GUILogging:

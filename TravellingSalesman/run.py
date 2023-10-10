@@ -81,7 +81,7 @@ def addDot(controller: Controller, position: tuple):
     drawables.append(Drawable.makeDrawable(position, "dot"))
     controller.setDrawables(drawables)
     controller.setScreen()
-    controller.ui.log(f'Clicked at {position}')
+    controller.ui.log(f'Added dot at {position}')
     controller.ui.drawTopText(f'{len(controller.getDrawables())} Dots', 1)
 
 def showSolution(ui: UI, solution: list[tuple]):

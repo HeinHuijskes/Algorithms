@@ -19,7 +19,7 @@ class UISettings():
     dotColour = "white"
 
     font="Calibri"
-    fontSize = 25
+    fontSize = 22
     fontColour = "white"
 
     logFont = "Consolas"

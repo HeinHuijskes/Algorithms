@@ -77,7 +77,7 @@ class Controller():
         if actionFound:
             self.performAction(button)
         else:
-            self.ui.log(f'Action not found!')
+            self.ui.log(f'Action not found!', warning=True)
 
     def performAction(self, button: Button):
         button.active = True
