@@ -13,10 +13,10 @@
 - [x] Add top text block
 - [x] Add automatic text centering
 - [x] Remove runner class
+- [x] Move logging to the GUI
 - [ ] Allow for multiple top texts
 - [ ] Add a progress bar
 - [ ] Add stats bars
-- [ ] Move logging to the GUI
 - [ ] Add testing
 - [ ] Add button blocking when others are in use
 - [ ] Add text scaling

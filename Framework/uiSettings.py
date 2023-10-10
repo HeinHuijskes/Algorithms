@@ -1,6 +1,6 @@
 class UISettings():
-    def __init__(self) -> None:
-        pass
+    def __init__(self, GUILogging=True) -> None:
+        self.GUILogging = GUILogging
 
     width = 800
     height = 500
@@ -18,6 +18,12 @@ class UISettings():
     dotSize = 4
     dotColour = "white"
 
-    font="Corbel"
+    font="Calibri"
     fontSize = 25
     fontColour = "white"
+
+    logFont = "Consolas"
+    logFontSize = 10
+    logFontColour = "black"
+    logSize = (menuWidth, 70)
+    logMargin = 10

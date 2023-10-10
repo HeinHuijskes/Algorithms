@@ -8,6 +8,7 @@ from drawable import Drawable
 class UI():
     screen = None
     buttons: list[Button] = []
+    logs = []
     def __init__(self, logging=True, settings=UISettings(), showSolution=None) -> None:
         self.screen = pygame.display.set_mode((settings.width, settings.height))
         self.logging = logging
@@ -95,7 +96,50 @@ class UI():
             self.showSolution(self, solution)
         else:
             self.log(f'No "showSolution" method found, cannot draw solution')
+    
+    def GUILog(self):
+        width, height = self.settings.logSize
+        margin = self.settings.logMargin
+        x, y = self.settings.fieldWidth, self.settings.height - height
+        rectangle = pygame.Rect(x, y, width, height)
+        pygame.draw.rect(self.screen, self.settings.menuColour, rectangle)
+
+        font = pygame.font.SysFont(self.settings.logFont, self.settings.logFontSize)
+        for i, log in enumerate(reversed(self.logs[-7:])):
+            text = font.render(log, True, self.settings.logFontColour)
+            # text_rect = text.get_rect(center=(x+width/2, y+height/2))
+            self.screen.blit(text, (x+margin, y + i*(margin)))
+
+    def cutLog(self, string):
+        length = 0
+        words = string.split(' ')
+        print(words)
+        logs = []
+        log = ""
+        for word in words:
+            print(f'Length: {len(word)} + {length} = {len(word) + length}')
+            if len(word) + length < 32:
+                log += word + ' '
+                length += len(word) + 1
+            else:
+                if length == 0:
+                    logs.append(word)
+                else:
+                    print(f'log: {log}')
+                    logs.append(log)
+                    log = word + ' '
+                    length = len(word) + 1
+        if len(log) > 0:
+            logs.append(log)
+        print(logs)
+        return logs
 
     def log(self, string):
+        logs = self.cutLog('> ' + string)
+        for log in reversed(logs):
+            self.logs.append(log)
         if self.logging:
-            print(string)
+            if self.settings.GUILogging:
+                self.GUILog()
+            else:
+                print(string)
