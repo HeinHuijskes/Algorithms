@@ -26,35 +26,33 @@ def bruteForceAction(controller: Controller, button: Button):
     showSolution(controller.ui, solution)
     controller.deactivate(button)
 
-def resetDots(controller: Controller, button: Button):
+def resetDotsAction(controller: Controller, button: Button):
     positions = getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)
     controller.setDrawables(Drawable.makeDrawables(positions, "dot"))
     controller.setScreen()
     controller.deactivate(button)
 
-def showSolution(ui: UI, solution: list[tuple]):
-    ui.clearOutputScreen()
-    prev = solution[-1]
-    for point in solution:
-        ui.drawLine(prev, point, "red")
-        prev = point
-    for point in solution:
-        ui.drawDot(point)
-    controller.ui.drawTopText(f'Length: {int(getRouteLength([i for i in range(len(solution))], solution))}', 2)
+def toggleThreadingAction(controller: Controller, button: Button):
+    controller.parameters.threading = not controller.parameters.threading
+    if controller.parameters.threading:
+        controller.ui.log("Threading turned ON")
+    else:
+        controller.ui.log("Threading turned OFF")
+    controller.deactivate(button)
 
 def plusOne(controller: Controller, button: Button):
-    changeDots(1, controller, button)
+    changeDotsAction(1, controller, button)
 
 def plusTen(controller: Controller, button: Button):
-    changeDots(10, controller, button)
+    changeDotsAction(10, controller, button)
     
 def minusOne(controller: Controller, button: Button):
-    changeDots(-1, controller, button)
+    changeDotsAction(-1, controller, button)
     
 def minusTen(controller: Controller, button: Button):
-    changeDots(-10, controller, button)
+    changeDotsAction(-10, controller, button)
 
-def changeDots(amount: int, controller: Controller, button: Button):
+def changeDotsAction(amount: int, controller: Controller, button: Button):
     positions = Drawable.unMakeDrawables(controller.getDrawables())
     added = len(positions)
     
@@ -75,8 +73,8 @@ def changeDots(amount: int, controller: Controller, button: Button):
         controller.ui.log(f'Added {added} dots')
     else: 
         controller.ui.log(f'Removed {added} dots')
-    controller.deactivate(button)
     controller.ui.drawTopText(f'{len(controller.getDrawables())} Dots', 1)
+    controller.deactivate(button)
 
 def addDot(controller: Controller, position: tuple):
     drawables = controller.getDrawables()
@@ -86,27 +84,32 @@ def addDot(controller: Controller, position: tuple):
     controller.ui.log(f'Clicked at {position}')
     controller.ui.drawTopText(f'{len(controller.getDrawables())} Dots', 1)
 
-def amountOfDotsText(controller):
-    # TODO: Add current length here
-
-    return (f'{len(controller.getDrawables())} Dots', 120)
-
+def showSolution(ui: UI, solution: list[tuple]):
+    ui.clearOutputScreen()
+    prev = solution[-1]
+    for point in solution:
+        ui.drawLine(prev, point, "red")
+        prev = point
+    for point in solution:
+        ui.drawDot(point)
+    controller.ui.drawTopText(f'Length: {int(getRouteLength([i for i in range(len(solution))], solution))}', 2)
 
 # Initialize everything
 buttons = [
     Button(label="Brute force", action=bruteForceAction),
-    Button(label="Reset", action=resetDots),
+    Button(label="Reset", action=resetDotsAction),
     Button(label="+1", action=plusOne, buttonSize=1, fontSize=20),
     Button(label="+10", action=plusTen, buttonSize=1, fontSize=20, textPadding=5),
     Button(label="-10", action=minusTen, buttonSize=1, fontSize=20, textPadding=5),
     Button(label="-1", action=minusOne, buttonSize=1, fontSize=20),
+    Button(label="Threading", action=toggleThreadingAction)
 ]
 
 width, height, = UISettings.width - UISettings.menuWidth, UISettings.height
 positions=getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)
 
-controller = Controller(TSMParameters(), ui=UI(showSolution=showSolution), drawables=Drawable.makeDrawables(positions, "dot"), 
-                        buttons=buttons, inFieldAction=addDot, topText=amountOfDotsText)
+controller = Controller(TSMParameters(), ui=UI(showSolution=showSolution), 
+                        drawables=Drawable.makeDrawables(positions, "dot"), buttons=buttons, inFieldAction=addDot)
 algorithm = TSMAlgorithm(controller)
 
 controller.run()

@@ -45,6 +45,15 @@ class TSMAlgorithm(Algorithm):
         self.getAllRoutesRecurse(firstRoute, 1, routes)
         self.log(f'Checking {len(routes)} routes to find the best one')
 
+        if self.controller.parameters.threading:
+            routes = self.threadSearch(routes, positions)
+
+        # Find the best result out of all best results from different threads
+        bestRoute = self.findBestRoute(routes, positions)
+        self.log(f'Found the best route! It has length {getRouteLength(bestRoute, positions)}')
+        return indexesToRoute(bestRoute, positions)
+    
+    def threadSearch(self, routes: list[list[int]], positions: list[tuple]):
         threads = []
         bestRoutes = []
         step = len(routes) // len(positions)
@@ -54,11 +63,7 @@ class TSMAlgorithm(Algorithm):
             threads[i].start()
         for i in range(len(threads)):
             threads[i].join()
-
-        # Find the best result out of all best results from different threads
-        bestRoute = self.findBestRoute(bestRoutes, positions)
-        self.log(f'Found the best route! It has length {getRouteLength(bestRoute, positions)}')
-        return indexesToRoute(bestRoute, positions)
+        return bestRoutes
         
     def getAllRoutesRecurse(self, route: list[int], depth: int, routes: list[list[int]]):
         if (depth == len(route)-1):
