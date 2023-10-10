@@ -4,6 +4,8 @@
 - [x] Add button to increase and decrease number of dots
 - [x] Add dots onclick in field
 - [x] Add dot counter
+- [x] Draw intermittent best results
+- [ ] Draw intermittent lengths
 - [ ] Add more fun facts and log them
     - [ ] Average length of considered routes
     - [ ] Maximum length of considered routes
@@ -17,3 +19,4 @@
     - [ ] Add some cool presets
 - [ ] Use threads for all routes generation
 - [ ] Improve logging from Algorithm
+- [ ] Optimize and improve bruteforce

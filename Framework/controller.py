@@ -10,11 +10,12 @@ class Controller():
     ui: UI
     clock: pygame.time.Clock
     timer: Timer
-    button: list[Button]
     drawables: list[Drawable]
-    def __init__(self, ui, parameters, inFieldAction=None, topText=None) -> None:
+    def __init__(self, parameters, ui: UI=UI(), drawables: list[Drawable]=[], buttons: list[Button]=[], inFieldAction=None, topText=None) -> None:
         self.ui = ui
         self.parameters = parameters
+        self.drawables = drawables
+        self.ui.setButtons(buttons)
         self.timer = Timer()
         self.clock = pygame.time.Clock()
         self.algorithmResult = None

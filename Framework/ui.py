@@ -8,10 +8,11 @@ from drawable import Drawable
 class UI():
     screen = None
     buttons: list[Button] = []
-    def __init__(self, logging=True, settings=UISettings()) -> None:
+    def __init__(self, logging=True, settings=UISettings(), showSolution=None) -> None:
         self.screen = pygame.display.set_mode((settings.width, settings.height))
         self.logging = logging
         self.settings = settings
+        self.showSolution = showSolution
     
     def setButtons(self, buttons: list[Button]):
         skipSize = Button.size[1] + Button.padding
@@ -66,7 +67,7 @@ class UI():
         self.screen.blit(text, text_rect)
 
     def clearOutputScreen(self):
-        x, y, width, height = 0, 0, self.settings.width - self.settings.menuWidth, self.settings.height
+        x, y, width, height = 0, 50, self.settings.width - self.settings.menuWidth, self.settings.height - 50
         pygame.draw.rect(self.screen, self.settings.bgColour, pygame.Rect(x, y, width, height))
 
     def drawScreen(self):
@@ -89,6 +90,12 @@ class UI():
 
     def drawLine(self, point1, point2, colour):
         pygame.draw.line(self.screen, colour, point1, point2, 1)
+
+    def drawSolution(self, solution):
+        if self.showSolution != None:
+            self.showSolution(self, solution)
+        else:
+            self.log(f'No "showSolution" method found, cannot draw solution')
 
     def log(self, string):
         if self.logging:

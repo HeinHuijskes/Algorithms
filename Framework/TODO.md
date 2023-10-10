@@ -12,6 +12,8 @@
 - [x] Add infield click handling
 - [x] Add top text block
 - [x] Add automatic text centering
+- [x] Remove runner class
+- [ ] Allow for multiple top texts
 - [ ] Add a progress bar
 - [ ] Add stats bars
 - [ ] Move logging to the GUI

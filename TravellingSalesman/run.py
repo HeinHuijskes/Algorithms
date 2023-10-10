@@ -4,22 +4,24 @@ sys.path.append("../Algorithms")
 sys.path.append("../Algorithms/Framework")
 
 from Framework.controller import Controller
-from Framework.runner import Runner
+from Framework.ui import UI
 from Framework.button import Button
 from Framework.drawable import Drawable
-from TSMAlgorithm import getRandomPositions, bruteForce
+from TSMAlgorithm import TSMAlgorithm, getRandomPositions
 
 from Framework.uiSettings import UISettings
 from tsmparams import TSMParameters
 
-width, height, = UISettings.width - UISettings.menuWidth, UISettings.height
-positions=getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)
+algorithm: TSMAlgorithm
+buttons: list[Button]
+width: int
+height: int
 
 def bruteForceAction(controller: Controller, button: Button):
     positions = [drawable.value for drawable in controller.getDrawables()]
     controller.startTimer()
     controller.timer.toggle()
-    solution = bruteForce(positions, controller)
+    solution = algorithm.bruteForce(positions)
     controller.timer.toggle()
     showSolution(controller.ui, solution)
     controller.deactivate(button)
@@ -30,11 +32,14 @@ def resetDots(controller: Controller, button: Button):
     controller.setScreen()
     controller.deactivate(button)
 
-def showSolution(ui, solution):
+def showSolution(ui: UI, solution: list[tuple]):
+    ui.clearOutputScreen()
     prev = solution[-1]
     for point in solution:
         ui.drawLine(prev, point, "red")
         prev = point
+    for point in solution:
+        ui.drawDot(point)
 
 def plusOne(controller: Controller, button: Button):
     changeDots(1, controller, button)
@@ -71,15 +76,6 @@ def changeDots(amount: int, controller: Controller, button: Button):
         controller.ui.log(f'Removed {added} dots')
     controller.deactivate(button)
 
-buttons = [
-    Button(label="Brute force", action=bruteForceAction),
-    Button(label="Reset", action=resetDots),
-    Button(label="+1", action=plusOne, buttonSize=1, fontSize=20),
-    Button(label="+10", action=plusTen, buttonSize=1, fontSize=20, textPadding=5),
-    Button(label="-10", action=minusTen, buttonSize=1, fontSize=20, textPadding=5),
-    Button(label="-1", action=minusOne, buttonSize=1, fontSize=20),
-]
-
 def addDot(controller: Controller, position: ()):
     drawables = controller.getDrawables()
     drawables.append(Drawable.makeDrawable(position, "dot"))
@@ -90,5 +86,22 @@ def addDot(controller: Controller, position: ()):
 def amountOfDotsText(controller):
     return (f'{len(controller.getDrawables())} Dots', 120)
 
-runner = Runner(Drawable.makeDrawables(positions, "dot"), TSMParameters(), buttons, inFieldAction=addDot, topText=amountOfDotsText)
-runner.run()
+
+# Initialize everything
+buttons = [
+    Button(label="Brute force", action=bruteForceAction),
+    Button(label="Reset", action=resetDots),
+    Button(label="+1", action=plusOne, buttonSize=1, fontSize=20),
+    Button(label="+10", action=plusTen, buttonSize=1, fontSize=20, textPadding=5),
+    Button(label="-10", action=minusTen, buttonSize=1, fontSize=20, textPadding=5),
+    Button(label="-1", action=minusOne, buttonSize=1, fontSize=20),
+]
+
+width, height, = UISettings.width - UISettings.menuWidth, UISettings.height
+positions=getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)
+
+controller = Controller(TSMParameters(), ui=UI(showSolution=showSolution), drawables=Drawable.makeDrawables(positions, "dot"), 
+                        buttons=buttons, inFieldAction=addDot, topText=amountOfDotsText)
+algorithm = TSMAlgorithm(controller)
+
+controller.run()
