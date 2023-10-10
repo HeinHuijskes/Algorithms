@@ -5,12 +5,14 @@ from ui import UI
 from button import Button
 from timerClass import Timer
 from drawable import Drawable
+from parameters import Parameters
 
 class Controller():
     ui: UI
     clock: pygame.time.Clock
     timer: Timer
     drawables: list[Drawable]
+    parameters: Parameters
     def __init__(self, parameters, ui: UI=UI(), drawables: list[Drawable]=[], buttons: list[Button]=[], inFieldAction=None) -> None:
         self.ui = ui
         self.parameters = parameters

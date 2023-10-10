@@ -32,12 +32,12 @@ def resetDotsAction(controller: Controller, button: Button):
     controller.setScreen()
     controller.deactivate(button)
 
-def toggleThreadingAction(controller: Controller, button: Button):
-    controller.parameters.threading = not controller.parameters.threading
-    if controller.parameters.threading:
-        controller.ui.log("Threading turned ON")
+def toggleParallelAction(controller: Controller, button: Button):
+    controller.parameters.parallel = not controller.parameters.parallel
+    if controller.parameters.parallel:
+        controller.ui.log("Parallel turned ON")
     else:
-        controller.ui.log("Threading turned OFF")
+        controller.ui.log("Parallel turned OFF")
     controller.deactivate(button)
 
 def plusOne(controller: Controller, button: Button):
@@ -85,6 +85,8 @@ def addDot(controller: Controller, position: tuple):
     controller.ui.drawTopText(f'{len(controller.getDrawables())} Dots', 1)
 
 def showSolution(ui: UI, solution: list[tuple]):
+    if len(solution) < 2:
+        return
     ui.clearOutputScreen()
     prev = solution[-1]
     for point in solution:
@@ -102,7 +104,7 @@ buttons = [
     Button(label="+10", action=plusTen, buttonSize=1, fontSize=20, textPadding=5),
     Button(label="-10", action=minusTen, buttonSize=1, fontSize=20, textPadding=5),
     Button(label="-1", action=minusOne, buttonSize=1, fontSize=20),
-    Button(label="Threading", action=toggleThreadingAction)
+    Button(label="Parallel", action=toggleParallelAction)
 ]
 
 width, height, = UISettings.width - UISettings.menuWidth, UISettings.height

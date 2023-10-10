@@ -1,5 +1,5 @@
 from random import random
-from threading import Thread
+from multiprocess import Process
 import math
 
 from Framework.algorithm import Algorithm
@@ -45,24 +45,31 @@ class TSMAlgorithm(Algorithm):
         self.getAllRoutesRecurse(firstRoute, 1, routes)
         self.log(f'Checking {len(routes)} routes to find the best one')
 
-        if self.controller.parameters.threading:
-            routes = self.threadSearch(routes, positions)
+        if self.controller.parameters.parallel:
+            if __name__ == "__main__":
+                routes = self.parallelSearch(routes, positions)
 
         # Find the best result out of all best results from different threads
         bestRoute = self.findBestRoute(routes, positions)
         self.log(f'Found the best route! It has length {getRouteLength(bestRoute, positions)}')
         return indexesToRoute(bestRoute, positions)
     
-    def threadSearch(self, routes: list[list[int]], positions: list[tuple]):
-        threads = []
-        bestRoutes = []
+    def parallelSearch(self, routes: list[list[int]], positions: list[tuple]):
+        processes = []
+        numProcesses = len(positions)
+        bestRoutes = [0 for i in range(numProcesses)]
         step = len(routes) // len(positions)
-        for i in range(len(positions)):
+        self.log(f'Step: {str(step)}')
+        self.log(f'Routes: {str(len(routes))}')
+        self.log(f'Positions: {str(len(positions))}')
+        for i in range(numProcesses):
+            self.log(f': {str(step)}')
             subset = routes[step*i:step*(i+1)]
-            threads.append(Thread(target=self.findBestRoute, args=(subset, positions, bestRoutes)))
-            threads[i].start()
-        for i in range(len(threads)):
-            threads[i].join()
+            process = Process(target=self.findBestRoute, args=(subset, positions, bestRoutes, i,))
+            process.start()
+            processes.append[process]
+        for i in range(len(processes)):
+            processes[i].join()
         return bestRoutes
         
     def getAllRoutesRecurse(self, route: list[int], depth: int, routes: list[list[int]]):
@@ -78,7 +85,7 @@ class TSMAlgorithm(Algorithm):
             currentRoute[i] = route[depth]
             self.getAllRoutesRecurse(currentRoute, depth+1, routes)
 
-    def findBestRoute(self, routes: list[list[int]], positions: list[tuple], bestRoutes: list[list[int]]=[]):
+    def findBestRoute(self, routes: list[list[int]], positions: list[tuple], bestRoutes: list[list[int]]=[], procesNum=None):
         # TODO: find out if "bestRoutes" is a necessary list
         bestRoute = routes[0]
         bestLength = getRouteLength(bestRoute, positions)
@@ -88,7 +95,8 @@ class TSMAlgorithm(Algorithm):
                 bestLength = length
                 bestRoute = route
                 solution = indexesToRoute(bestRoute, positions)
-                self.controller.ui.drawSolution(solution)        
+                # self.controller.ui.drawSolution(solution)
         
-        bestRoutes.append(bestRoute)
+        if procesNum != None:
+            bestRoutes[procesNum] = bestRoute
         return bestRoute
