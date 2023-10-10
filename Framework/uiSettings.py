@@ -17,4 +17,3 @@ class UISettings():
     font="Corbel"
     fontSize = 25
     fontColour = "white"
-    padding = 10

@@ -52,7 +52,8 @@ class UI():
         pygame.draw.rect(self.screen, self.settings.bgColour, rectangle)
         font = pygame.font.SysFont(self.settings.font, self.settings.fontSize)
         text = font.render(textString, True, self.settings.fontColour)
-        self.screen.blit(text, (self.settings.width-x-self.settings.menuWidth + self.settings.padding, self.settings.padding))
+        text_rect = text.get_rect(center=(self.settings.width-x//2-self.settings.menuWidth, 25))
+        self.screen.blit(text, text_rect)
         
     def drawButton(self, button: Button):
         if button.active:
@@ -61,7 +62,8 @@ class UI():
             colour = button.borderColour
         self.drawButtonOutline(button, colour)
         text = pygame.font.SysFont(button.font, button.fontSize).render(button.label, True, button.fontColour)
-        self.screen.blit(text, (button.position[0]+button.textPadding, button.position[1]+button.padding))
+        text_rect = text.get_rect(center=(button.position[0]+button.size[0]//2, button.position[1]+button.size[1]//2))
+        self.screen.blit(text, text_rect)
 
     def clearOutputScreen(self):
         x, y, width, height = 0, 0, self.settings.width - self.settings.menuWidth, self.settings.height

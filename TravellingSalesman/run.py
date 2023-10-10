@@ -74,10 +74,10 @@ def changeDots(amount: int, controller: Controller, button: Button):
 buttons = [
     Button(label="Brute force", action=bruteForceAction),
     Button(label="Reset", action=resetDots),
-    Button(label="+1", action=plusOne, buttonSize=1, fontSize=20, textPadding=10),
+    Button(label="+1", action=plusOne, buttonSize=1, fontSize=20),
     Button(label="+10", action=plusTen, buttonSize=1, fontSize=20, textPadding=5),
     Button(label="-10", action=minusTen, buttonSize=1, fontSize=20, textPadding=5),
-    Button(label="-1", action=minusOne, buttonSize=1, fontSize=20, textPadding=10),
+    Button(label="-1", action=minusOne, buttonSize=1, fontSize=20),
 ]
 
 def addDot(controller: Controller, position: ()):

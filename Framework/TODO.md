@@ -11,9 +11,10 @@
 - [x] Generalize object drawing
 - [x] Add infield click handling
 - [x] Add top text block
+- [x] Add automatic text centering
 - [ ] Add a progress bar
 - [ ] Add stats bars
 - [ ] Move logging to the GUI
 - [ ] Add testing
 - [ ] Add button blocking when others are in use
-- [ ] Add automatic text centering (and scaling)
+- [ ] Add text scaling
