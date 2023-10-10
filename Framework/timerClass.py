@@ -13,10 +13,3 @@ class Timer():
     
     def getTime(self):
         return self.time
-
-    position = (10, 10)
-    colour = "black"
-    textColour = "white"
-    font = "Corbel"
-    fontSize = 25
-    size = (200, 30)

@@ -5,7 +5,9 @@
 - [x] Add dots onclick in field
 - [x] Add dot counter
 - [x] Draw intermittent best results
-- [ ] Draw intermittent lengths
+- [v] Draw intermittent lengths
+- [ ] Fix threading messing up best route
+- [ ] Add threading toggle
 - [ ] Add more fun facts and log them
     - [ ] Average length of considered routes
     - [ ] Maximum length of considered routes

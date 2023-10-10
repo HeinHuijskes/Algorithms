@@ -7,7 +7,7 @@ from Framework.controller import Controller
 from Framework.ui import UI
 from Framework.button import Button
 from Framework.drawable import Drawable
-from TSMAlgorithm import TSMAlgorithm, getRandomPositions
+from TSMAlgorithm import TSMAlgorithm, getRandomPositions, getRouteLength
 
 from Framework.uiSettings import UISettings
 from tsmparams import TSMParameters
@@ -40,6 +40,7 @@ def showSolution(ui: UI, solution: list[tuple]):
         prev = point
     for point in solution:
         ui.drawDot(point)
+    controller.ui.drawTopText(f'Length: {int(getRouteLength([i for i in range(len(solution))], solution))}', 2)
 
 def plusOne(controller: Controller, button: Button):
     changeDots(1, controller, button)
@@ -75,15 +76,19 @@ def changeDots(amount: int, controller: Controller, button: Button):
     else: 
         controller.ui.log(f'Removed {added} dots')
     controller.deactivate(button)
+    controller.ui.drawTopText(f'{len(controller.getDrawables())} Dots', 1)
 
-def addDot(controller: Controller, position: ()):
+def addDot(controller: Controller, position: tuple):
     drawables = controller.getDrawables()
     drawables.append(Drawable.makeDrawable(position, "dot"))
     controller.setDrawables(drawables)
     controller.setScreen()
     controller.ui.log(f'Clicked at {position}')
+    controller.ui.drawTopText(f'{len(controller.getDrawables())} Dots', 1)
 
 def amountOfDotsText(controller):
+    # TODO: Add current length here
+
     return (f'{len(controller.getDrawables())} Dots', 120)
 
 

@@ -6,6 +6,10 @@ class UISettings():
     height = 500
     menuWidth = 200
     margin = 50
+    topbarSlots = 4
+
+    fieldWidth = width - menuWidth
+    fieldHeight = height - margin
 
     icon = "./Framework/hexagon.png"
     bgColour = "black"

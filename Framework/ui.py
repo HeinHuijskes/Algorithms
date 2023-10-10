@@ -48,12 +48,18 @@ class UI():
         pos, size = button.position, button.size
         pygame.draw.rect(self.screen, colour, pygame.Rect(pos[0], pos[1], size[0], size[1]), button.borderSize)
 
-    def drawTopText(self, textString, x):
-        rectangle = pygame.Rect(self.settings.width-x-self.settings.menuWidth, 0, x, 50)
+    def drawTopText(self, textString, slot):
+        if slot >= self.settings.topbarSlots:
+            slot = self.settings.topbarSlots-1
+        # The top bar is divided into 5 slots for text. These can extend beyond their space if necessary
+        width, height, slots = self.settings.fieldWidth, self.settings.margin, self.settings.topbarSlots
+        position = (width / slots * slot, 0)
+        size = (width / slots, height)
+        rectangle = pygame.Rect(position[0], position[1], size[0], size[1])
         pygame.draw.rect(self.screen, self.settings.bgColour, rectangle)
         font = pygame.font.SysFont(self.settings.font, self.settings.fontSize)
         text = font.render(textString, True, self.settings.fontColour)
-        text_rect = text.get_rect(center=(self.settings.width-x//2-self.settings.menuWidth, 25))
+        text_rect = text.get_rect(center=(position[0]+size[0]/2, position[1]+size[1]/2))
         self.screen.blit(text, text_rect)
         
     def drawButton(self, button: Button):
@@ -67,7 +73,7 @@ class UI():
         self.screen.blit(text, text_rect)
 
     def clearOutputScreen(self):
-        x, y, width, height = 0, 50, self.settings.width - self.settings.menuWidth, self.settings.height - 50
+        x, y, width, height = 0, self.settings.margin, self.settings.fieldWidth, self.settings.fieldHeight
         pygame.draw.rect(self.screen, self.settings.bgColour, pygame.Rect(x, y, width, height))
 
     def drawScreen(self):
@@ -80,13 +86,6 @@ class UI():
         # Draw buttons
         for button in self.buttons:
             self.drawButton(button)
-
-    def drawTimer(self, time, timer: Timer):
-        x, y = timer.position 
-        width, height = timer.size
-        pygame.draw.rect(self.screen, timer.colour, pygame.Rect(x, y, width, height))
-        text = pygame.font.SysFont(timer.font, timer.fontSize).render(f'Time: {time} sec', True, timer.textColour)
-        self.screen.blit(text, (x, y))
 
     def drawLine(self, point1, point2, colour):
         pygame.draw.line(self.screen, colour, point1, point2, 1)

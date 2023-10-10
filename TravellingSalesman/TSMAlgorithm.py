@@ -82,7 +82,8 @@ class TSMAlgorithm(Algorithm):
             if length < bestLength:
                 bestLength = length
                 bestRoute = route
-                self.controller.ui.showSolution(self.controller.ui, indexesToRoute(bestRoute, positions))        
+                solution = indexesToRoute(bestRoute, positions)
+                self.controller.ui.drawSolution(solution)        
         
         bestRoutes.append(bestRoute)
         return bestRoute
