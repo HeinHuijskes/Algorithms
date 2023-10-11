@@ -10,21 +10,29 @@ class UI():
     buttons: list[Button] = []
     logs = []
     def __init__(self, logging=True, settings=UISettings(), showSolution=None) -> None:
-        self.screen = pygame.display.set_mode((settings.width, settings.height))
         self.logging = logging
         self.settings = settings
         self.showSolution = showSolution
+
+    def setScreen(self, width, height):
+        self.settings.width = width
+        self.settings.height = height
+        self.settings.fieldWidth = width - self.settings.menuWidth
+        self.settings.fieldHeight = height - self.settings.margin
+        self.screen = pygame.display.set_mode((width, height))
+        self.positionButtons()
     
-    def setButtons(self, buttons: list[Button]):
+    def positionButtons(self):
+        buttons = self.buttons
         skipSize = Button.size[1] + Button.padding
         smallSize = Button.size[0]//4
         space = 4
-        position = Button.position
+        position = (Button.position[0] + self.settings.fieldWidth, Button.position[1])
         for button in buttons:
             # If there is not enough space for this button, skip to the next row
             if button.buttonSize > space:
                 space = 4
-                position = (Button.position[0], position[1] + skipSize)
+                position = (Button.position[0] + self.settings.fieldWidth, position[1] + skipSize)
 
             space -= button.buttonSize
             # Set the definitive position of this button
@@ -34,7 +42,6 @@ class UI():
             button.size = (buttonWidth, button.size[1])
             # Move the current position sideways by the size of the button and a margin
             position = (position[0] + button.buttonSize * smallSize, position[1])
-        self.buttons = buttons
     
     def drawObject(self, drawable: Drawable):
         if drawable.drawType == "dot":
@@ -105,7 +112,7 @@ class UI():
         pygame.draw.rect(self.screen, self.settings.menuColour, rectangle)
 
         font = pygame.font.SysFont(self.settings.logFont, self.settings.logFontSize)
-        for i, log in enumerate(self.logs[-7:]):
+        for i, log in enumerate(self.logs[-self.settings.logAmount:]):
             text = font.render(log, True, self.settings.logFontColour)
             # text_rect = text.get_rect(center=(x+width/2, y+height/2))
             self.screen.blit(text, (x+margin, y + i*(margin)))

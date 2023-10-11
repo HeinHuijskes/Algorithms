@@ -1,0 +1,5 @@
+
+- The optimal solution always seems to have no crossed paths. This could be an optimisation for e.g. ACO in later stages, or its own algorithm entirely.
+- For much larger amounts of dots, ACO seems to struggle with updating some somewhat obvious routes. This could be due to the fact that a much larger total route length decreases the probability for altering a route significantly.
+- Increased screen size _seems_ to impact ACO. Not sure if this is true, but just in case some data normalisation might be good to add.
+- Say that the TSM problem was applied to a UPS driver driving all across America. His assignment matters here, because let's say there is some benefit to finishing visiting each state before going to the next one. In that case the problem would be divided into a subproblem for each state, and one subproblem for visiting each state. Perhaps such a division into subproblems could also be applied to some algorithms.

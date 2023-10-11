@@ -15,10 +15,10 @@
 - [x] Remove runner class
 - [x] Move logging to the GUI
 - [x] Allow for multiple top texts
+- [x] Make size dynamic and add fullscreen
 - [ ] Add generic buttons
 - [ ] Add visuals reduction toggle
 - [ ] Improve settings structure
-- [ ] Make size dynamic and add multiple sizes (fullscreen?)
 - [ ] Add a progress bar
 - [ ] Add stats bars
 - [ ] Add testing

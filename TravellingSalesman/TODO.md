@@ -11,17 +11,19 @@
 - [x] Add more fun facts and log them
     - [x] Amount of routes considered
     - [x] Length of shortest route found
-- [ ] Add cooler and more efficient algorithms
-    - [x] Implement Ant Colony Optimisation Algorithm
-    - [ ] Implement ACO variants
+- [x] Implement Ant Colony Optimisation Algorithm
 - [ ] Add fading pheromone visuals to ACO
+- [ ] Add normalisation to remove inconsistencies between screen sizes and datasets
 - [ ] Make all ACO setting togglable in the GUI
-- [ ] Fix threading
-- [ ] Add threading to ACO, e.g. 1 thread per ant
 - [ ] Add testing
+- [ ] Look for optimisations in algorithms
+
+- [ ] Add cooler and more efficient algorithms
+- [ ] Implement ACO variants
 - [ ] Add custom dot layout imports
     - [ ] Add import functionality
     - [ ] Add load buttons
     - [ ] Add some cool presets
+- [ ] Fix threading
+- [ ] Add threading to ACO, e.g. 1 thread per ant
 - [ ] Use threads for all routes generation
-- [ ] Look for optimisations in algorithms

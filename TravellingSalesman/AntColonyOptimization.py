@@ -24,6 +24,8 @@ class ACOAlgorithm(Algorithm):
         self.initializePheromone(positions)
         initLength = self.getRouteLength(positions)
         bestRoute, bestLength = self.updateRoute([positions], [initLength], positions, initLength+1, 0)
+        # Increase the number of ants for larger networks
+        self.ants = max(50, len(positions))
 
         for i in range(self.iterations):
             routes = self.antsTravel(positions)
@@ -31,7 +33,7 @@ class ACOAlgorithm(Algorithm):
             self.updatePheromones(routes, scores)
             bestRoute, bestLength = self.updateRoute(routes, scores, bestRoute, bestLength, i+1)
 
-        self.log(f'Best found length: {bestLength}')
+        # self.log(f'Best found length: {bestLength}')
         return bestRoute, bestLength
 
     def updateRoute(self, routes, scores, bestRoute, bestLength, iteration):
@@ -40,8 +42,8 @@ class ACOAlgorithm(Algorithm):
         self.controller.ui.drawTopText(f'Iteration: {iteration}', 3)
         if oldBest != bestLength:
             self.controller.ui.drawSolution(bestRoute)
-        if (iteration) % (self.iterations//10) == 0 or iteration-1==0:
-            self.log(f'({iteration}): {int(min(scores))}')
+        if (iteration) % (max(self.iterations//10,1)) == 0:
+            self.log(f'({iteration}): c={int(min(scores))} b={int(bestLength)}')
         return bestRoute, bestLength
 
     def smallestRoute(self, routes, scores, bestRoute, bestLength):

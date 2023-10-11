@@ -8,7 +8,7 @@ from Framework.controller import Controller
 from AntColonyOptimization import ACOAlgorithm
 
 def getRandomPosition(width: int, height: int, margin: int=0):
-    return (random()*(width-2*margin)+margin, random()*(height-2*margin)+margin)
+    return (random()*(width-2*margin)+margin, random()*(height-2*margin)+margin+50)
 
 def getRandomPositions(width: int, height: int, amount:int , margin: int=0):
     positions = []

@@ -23,7 +23,8 @@ class UISettings():
     fontColour = "white"
 
     logFont = "Consolas"
+    logAmount = 11
     logFontSize = 10
     logFontColour = "black"
-    logSize = (menuWidth, 70)
+    logSize = (menuWidth, logAmount * logFontSize)
     logMargin = 10

@@ -13,15 +13,18 @@ class Controller():
     timer: Timer
     drawables: list[Drawable]
     parameters: Parameters
-    def __init__(self, parameters, ui: UI=UI(), drawables: list[Drawable]=[], buttons: list[Button]=[], inFieldAction=None) -> None:
+    def __init__(self, parameters, ui: UI=UI(), buttons: list[Button]=[], inFieldAction=None) -> None:
         self.ui = ui
         self.parameters = parameters
-        self.drawables = drawables
-        self.ui.setButtons(buttons)
+        self.ui.buttons = buttons
         self.timer = Timer()
         self.clock = pygame.time.Clock()
         self.algorithmResult = None
         self.inFieldAction = inFieldAction
+        pygame.init()
+        pygame.display.set_caption(self.parameters.title)
+        pygame.display.set_icon(pygame.image.load(self.ui.settings.icon))
+        self.setScreen()
 
     def getDrawables(self):
         return self.drawables
@@ -31,10 +34,7 @@ class Controller():
     
     def run(self):
         running = True
-        pygame.init()
-        pygame.display.set_caption(self.parameters.title)
-        pygame.display.set_icon(pygame.image.load(self.ui.settings.icon))
-        self.setScreen()
+        self.drawDrawables()
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -48,7 +48,14 @@ class Controller():
         pygame.quit()
 
     def setScreen(self):
+        infoObject = pygame.display.Info()
+        width = infoObject.current_w
+        height = infoObject.current_h
+        self.ui.setScreen(width, height)
         self.ui.drawScreen()
+    
+    def drawDrawables(self):
+        self.ui.clearOutputScreen()
         for drawable in self.drawables:
             self.ui.drawObject(drawable)
     

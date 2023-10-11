@@ -6,9 +6,9 @@ class Button():
         self.fontSize = fontSize
 
     active = False
-    position = (610, 10)
-    size = (180, 40)
     padding = 10
+    position = (padding, padding)
+    size = (180, 40)
     
     borderColour = "black"
     borderSize = 2
