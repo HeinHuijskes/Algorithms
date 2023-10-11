@@ -14,7 +14,11 @@
 - [x] Add automatic text centering
 - [x] Remove runner class
 - [x] Move logging to the GUI
-- [ ] Allow for multiple top texts
+- [x] Allow for multiple top texts
+- [ ] Add generic buttons
+- [ ] Add visuals reduction toggle
+- [ ] Improve settings structure
+- [ ] Make size dynamic and add multiple sizes (fullscreen?)
 - [ ] Add a progress bar
 - [ ] Add stats bars
 - [ ] Add testing

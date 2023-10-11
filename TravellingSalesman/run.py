@@ -6,7 +6,7 @@ sys.path.append("../Algorithms/Framework")
 from Framework.controller import Controller
 from Framework.ui import UI
 from Framework.button import Button
-from Framework.drawable import Drawable
+from Framework.drawable import *
 from TSMAlgorithm import TSMAlgorithm, getRandomPositions, getRouteLength
 
 from Framework.uiSettings import UISettings
@@ -28,7 +28,7 @@ def bruteForceAction(controller: Controller, button: Button):
 
 def resetDotsAction(controller: Controller, button: Button):
     positions = getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)
-    controller.setDrawables(Drawable.makeDrawables(positions, "dot"))
+    controller.setDrawables(makeDrawables(positions, "dot"))
     controller.setScreen()
     controller.deactivate(button)
 
@@ -53,7 +53,7 @@ def minusTen(controller: Controller, button: Button):
     changeDotsAction(-10, controller, button)
 
 def changeDotsAction(amount: int, controller: Controller, button: Button):
-    positions = Drawable.unMakeDrawables(controller.getDrawables())
+    positions = unMakeDrawables(controller.getDrawables())
     added = len(positions)
     
     if amount > 0:
@@ -66,7 +66,7 @@ def changeDotsAction(amount: int, controller: Controller, button: Button):
             else:
                 break
 
-    controller.setDrawables(Drawable.makeDrawables(positions, "dot"))
+    controller.setDrawables(makeDrawables(positions, "dot"))
     controller.setScreen()
     added = abs(len(positions) - added)
     if amount > 0:
@@ -76,9 +76,26 @@ def changeDotsAction(amount: int, controller: Controller, button: Button):
     controller.ui.drawTopText(f'{len(controller.getDrawables())} Dots', 1)
     controller.deactivate(button)
 
+def runACOAction(controller: Controller, button: Button):
+    controller.startTimer()
+    controller.timer.toggle()
+    algorithm.aco.run(unMakeDrawables(controller.getDrawables()))
+    controller.timer.toggle()
+    controller.deactivate(button)
+
+def increaseIterationsAction(controller: Controller, button: Button):
+    algorithm.aco.addIterations(25)
+    controller.ui.log(f'Set iterations to {algorithm.aco.iterations}')
+    controller.deactivate(button)
+
+def decreaseIterationsAction(controller: Controller, button: Button):
+    algorithm.aco.addIterations(-25)
+    controller.ui.log(f'Set iterations to {algorithm.aco.iterations}')
+    controller.deactivate(button)
+
 def addDot(controller: Controller, position: tuple):
     drawables = controller.getDrawables()
-    drawables.append(Drawable.makeDrawable(position, "dot"))
+    drawables.append(Drawable(position, "dot"))
     controller.setDrawables(drawables)
     controller.setScreen()
     controller.ui.log(f'Added dot at {position}')
@@ -101,17 +118,20 @@ buttons = [
     Button(label="Brute force", action=bruteForceAction),
     Button(label="Reset", action=resetDotsAction),
     Button(label="+1", action=plusOne, buttonSize=1, fontSize=20),
-    Button(label="+10", action=plusTen, buttonSize=1, fontSize=20, textPadding=5),
-    Button(label="-10", action=minusTen, buttonSize=1, fontSize=20, textPadding=5),
+    Button(label="+10", action=plusTen, buttonSize=1, fontSize=20),
+    Button(label="-10", action=minusTen, buttonSize=1, fontSize=20),
     Button(label="-1", action=minusOne, buttonSize=1, fontSize=20),
-    Button(label="Parallel", action=toggleParallelAction)
+    Button(label="Parallel", action=toggleParallelAction),
+    Button(label="ACO", action=runACOAction, buttonSize=2),
+    Button(label="it+", action=increaseIterationsAction, buttonSize=1, fontSize=20),
+    Button(label="it-", action=decreaseIterationsAction, buttonSize=1, fontSize=20),
 ]
 
 width, height, = UISettings.width - UISettings.menuWidth, UISettings.height
 positions=getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)
 
 controller = Controller(TSMParameters(), ui=UI(showSolution=showSolution), 
-                        drawables=Drawable.makeDrawables(positions, "dot"), buttons=buttons, inFieldAction=addDot)
+                        drawables=makeDrawables(positions, "dot"), buttons=buttons, inFieldAction=addDot)
 algorithm = TSMAlgorithm(controller)
 
 controller.run()

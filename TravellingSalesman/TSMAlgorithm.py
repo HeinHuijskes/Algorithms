@@ -5,6 +5,8 @@ import math
 from Framework.algorithm import Algorithm
 from Framework.controller import Controller
 
+from AntColonyOptimization import ACOAlgorithm
+
 def getRandomPosition(width: int, height: int, margin: int=0):
     return (random()*(width-2*margin)+margin, random()*(height-2*margin)+margin)
 
@@ -35,6 +37,7 @@ def getRouteLength(route: list, positions: list[tuple], ):
 class TSMAlgorithm(Algorithm):
     def __init__(self, controller: Controller) -> None:
         super().__init__(controller)
+        self.aco = ACOAlgorithm(controller)
 
     def bruteForce(self, positions: list[tuple]):
         if len(positions) <= 3:
@@ -95,7 +98,7 @@ class TSMAlgorithm(Algorithm):
                 bestLength = length
                 bestRoute = route
                 solution = indexesToRoute(bestRoute, positions)
-                # self.controller.ui.drawSolution(solution)
+                self.controller.ui.drawSolution(solution)
         
         if procesNum != None:
             bestRoutes[procesNum] = bestRoute

@@ -7,18 +7,21 @@
 - [x] Draw intermittent best results
 - [x] Draw intermittent lengths
 - [x] Add threading toggle
-- [ ] Fix threading messing up best route
-- [ ] Add more fun facts and log them
-    - [ ] Average length of considered routes
-    - [ ] Maximum length of considered routes
+- [x] Improve logging from Algorithm
+- [x] Add more fun facts and log them
     - [x] Amount of routes considered
     - [x] Length of shortest route found
 - [ ] Add cooler and more efficient algorithms
+    - [x] Implement Ant Colony Optimisation Algorithm
+    - [ ] Implement ACO variants
+- [ ] Add fading pheromone visuals to ACO
+- [ ] Make all ACO setting togglable in the GUI
+- [ ] Fix threading
+- [ ] Add threading to ACO, e.g. 1 thread per ant
 - [ ] Add testing
 - [ ] Add custom dot layout imports
     - [ ] Add import functionality
     - [ ] Add load buttons
     - [ ] Add some cool presets
 - [ ] Use threads for all routes generation
-- [ ] Improve logging from Algorithm
-- [ ] Optimize and improve bruteforce
+- [ ] Look for optimisations in algorithms
