@@ -12,14 +12,17 @@
     - [x] Amount of routes considered
     - [x] Length of shortest route found
 - [x] Implement Ant Colony Optimisation Algorithm
+- [x] Look for optimisations in algorithms with benchmarking
+- [x] Add testing
 - [ ] Add fading pheromone visuals to ACO
 - [ ] Add normalisation to remove inconsistencies between screen sizes and datasets
 - [ ] Make all ACO setting togglable in the GUI
-- [ ] Add testing
-- [ ] Look for optimisations in algorithms
+- [ ] Add seeding
+- [ ] Add time left estimate
 
 - [ ] Add cooler and more efficient algorithms
 - [ ] Implement ACO variants
+    - [ ] Min-max: Cap and minimum on pheromone levels
 - [ ] Add custom dot layout imports
     - [ ] Add import functionality
     - [ ] Add load buttons

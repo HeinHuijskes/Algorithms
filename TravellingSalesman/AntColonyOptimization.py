@@ -1,3 +1,7 @@
+import sys
+sys.path.append("../Algorithms/Framework")
+sys.path.append("../Algorithms")
+
 import math
 from random import randint, choices
 
@@ -7,7 +11,7 @@ from Framework.controller import Controller
 class ACOAlgorithm(Algorithm):
     pheromoneTrails: dict = {}
     # Higher distance power makes the ant more likely to travel to nearby nodes
-    distancePower = 5
+    distancePower = 3
     pheromonePower = 1
     ants = 50
     evaporationRate = 0.3
@@ -24,8 +28,10 @@ class ACOAlgorithm(Algorithm):
         self.initializePheromone(positions)
         initLength = self.getRouteLength(positions)
         bestRoute, bestLength = self.updateRoute([positions], [initLength], positions, initLength+1, 0)
-        # Increase the number of ants for larger networks
-        self.ants = max(50, len(positions))
+        # Testing proves the antsTravel() part of the algorithm to be the slowest part.
+        # According to a paper, around 30% of the network size is an optimal number of ants (albeit for MMAS)
+        # (see the "Number of ants" source in README.md)
+        self.ants = max(25, int(len(positions)*0.3))
 
         for i in range(self.iterations):
             routes = self.antsTravel(positions)
@@ -78,12 +84,14 @@ class ACOAlgorithm(Algorithm):
         desirabilities = []
         for node in positions:
             desirability = math.pow(1 / self.distance(current, node), self.distancePower)
-            pheromoneStrength = math.pow(self.pheromoneTrails[(current, node)], self.pheromonePower)
+            pheromoneStrength = self.pheromoneTrails[(current, node)]
+            if self.pheromonePower != 1:
+                pheromoneStrength = math.pow(pheromoneStrength, self.pheromonePower)
             desirabilities.append(desirability * pheromoneStrength)
         total = sum(desirabilities)
 
         probabilities = [desire/total for desire in desirabilities]
-        return choices(positions, weights=probabilities, k=1)[0]
+        return choices(positions, weights=probabilities)[0]
 
     def scoreRoutes(self, routes):
         scores = []
@@ -100,7 +108,9 @@ class ACOAlgorithm(Algorithm):
         return length
 
     def distance(self, node1, node2):
-        return math.sqrt((node1[0]-node2[0])**2 + (node1[1]-node2[1])**2)
+        len1 = (node1[0]-node2[0])
+        len2 = (node1[1]-node2[1])
+        return math.sqrt(len1*len1 + len2*len2)
 
     def updatePheromones(self, routes, scores):
         # Evaporate pheromones

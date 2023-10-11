@@ -1,5 +1,8 @@
 
 - The optimal solution always seems to have no crossed paths. This could be an optimisation for e.g. ACO in later stages, or its own algorithm entirely.
+    - This could be extended to mean that if you start by "wrapping" the nodes with a sort of "rope" from the outside, and just keep wrapping in without crossing paths, a close to optimal solution would be found.
+    - Another idea would be to consider circles of different sizes that gather nodes in them.
 - For much larger amounts of dots, ACO seems to struggle with updating some somewhat obvious routes. This could be due to the fact that a much larger total route length decreases the probability for altering a route significantly.
+    - On further research it is much more likely that this is because of nearly depleted pheromone levels preventing a route from being considered. The solution would be to implement MMAS (Minimax) which uses a minimum and maximum value for pheromone levels, as well as smoothing if the values are too much on the low and high ends.
 - Increased screen size _seems_ to impact ACO. Not sure if this is true, but just in case some data normalisation might be good to add.
 - Say that the TSM problem was applied to a UPS driver driving all across America. His assignment matters here, because let's say there is some benefit to finishing visiting each state before going to the next one. In that case the problem would be divided into a subproblem for each state, and one subproblem for visiting each state. Perhaps such a division into subproblems could also be applied to some algorithms.

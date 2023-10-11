@@ -21,6 +21,6 @@
 - [ ] Improve settings structure
 - [ ] Add a progress bar
 - [ ] Add stats bars
-- [ ] Add testing
+- [v] Add testing
 - [ ] Add button blocking when others are in use
 - [ ] Add text scaling
