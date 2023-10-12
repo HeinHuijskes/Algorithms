@@ -5,3 +5,4 @@ class TSMParameters(Parameters):
         super().__init__(title="Travelling Salesman Algorithm")
     
     dots = 10
+    updateTime = 50000

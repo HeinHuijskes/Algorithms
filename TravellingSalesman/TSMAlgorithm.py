@@ -35,71 +35,56 @@ def getRouteLength(route: list, positions: list[tuple], ):
     return length
 
 class TSMAlgorithm(Algorithm):
+    numRoutes: int
+    bestLength: int
+    iterations: int
+    positions: list[tuple]
+    iteration: int
+    updateTime: int
     def __init__(self, controller: Controller) -> None:
         super().__init__(controller)
         self.aco = ACOAlgorithm(controller)
+    
+    def initialize(self, positions: list[tuple], firstRoute):
+        self.iteration = 0
+        self.numRoutes = math.factorial(len(positions)-1)
+        self.bestLength = getRouteLength(firstRoute, positions)
+        self.bestRoute = firstRoute
+        self.positions = positions
+        self.updateTime = self.controller.parameters.updateTime
 
     def bruteForce(self, positions: list[tuple]):
         if len(positions) <= 3:
-            return positions
+            return positions    
 
-        routes = []
         firstRoute = [i for i in range(len(positions))]
-        self.getAllRoutesRecurse(firstRoute, 1, routes)
-        self.log(f'Checking {len(routes)} routes to find the best one')
+        self.initialize(positions, firstRoute)
+        self.getAllRoutesRecurse(firstRoute, 1)
 
-        if self.controller.parameters.parallel:
-            if __name__ == "__main__":
-                routes = self.parallelSearch(routes, positions)
-
-        # Find the best result out of all best results from different threads
-        bestRoute = self.findBestRoute(routes, positions)
-        self.log(f'Found the best route! It has length {getRouteLength(bestRoute, positions)}')
-        return indexesToRoute(bestRoute, positions)
-    
-    def parallelSearch(self, routes: list[list[int]], positions: list[tuple]):
-        processes = []
-        numProcesses = len(positions)
-        bestRoutes = [0 for i in range(numProcesses)]
-        step = len(routes) // len(positions)
-        self.log(f'Step: {str(step)}')
-        self.log(f'Routes: {str(len(routes))}')
-        self.log(f'Positions: {str(len(positions))}')
-        for i in range(numProcesses):
-            self.log(f': {str(step)}')
-            subset = routes[step*i:step*(i+1)]
-            process = Process(target=self.findBestRoute, args=(subset, positions, bestRoutes, i,))
-            process.start()
-            processes.append[process]
-        for i in range(len(processes)):
-            processes[i].join()
-        return bestRoutes
+        self.log(f'Found the best route! It has length {self.bestLength}')
+        return indexesToRoute(self.bestRoute, self.positions)
         
-    def getAllRoutesRecurse(self, route: list[int], depth: int, routes: list[list[int]]):
+    def getAllRoutesRecurse(self, route: list[int], depth: int):
         if (depth == len(route)-1):
-            routes.append(route)
+            self.updateBestRoute(route)
             return
 
         currentRoute = []
-        self.getAllRoutesRecurse(route, depth+1, routes)
+        self.getAllRoutesRecurse(route, depth+1)
         for i in range(depth+1, len(route)):
             currentRoute = [i for i in route]
             currentRoute[depth] = route[i]
             currentRoute[i] = route[depth]
-            self.getAllRoutesRecurse(currentRoute, depth+1, routes)
+            self.getAllRoutesRecurse(currentRoute, depth+1)
+        return
 
-    def findBestRoute(self, routes: list[list[int]], positions: list[tuple], bestRoutes: list[list[int]]=[], procesNum=None):
-        # TODO: find out if "bestRoutes" is a necessary list
-        bestRoute = routes[0]
-        bestLength = getRouteLength(bestRoute, positions)
-        for route in routes:
-            length = getRouteLength(route, positions)
-            if length < bestLength:
-                bestLength = length
-                bestRoute = route
-                solution = indexesToRoute(bestRoute, positions)
-                self.controller.ui.drawSolution(solution)
-        
-        if procesNum != None:
-            bestRoutes[procesNum] = bestRoute
-        return bestRoute
+    def updateBestRoute(self, route):
+        self.iteration += 1
+        if self.iteration % self.updateTime == 1:
+            self.controller.displayTimeLeft(self.iteration, self.numRoutes)
+
+        length = getRouteLength(route, self.positions)
+        if self.bestLength > length:
+            self.bestRoute = route
+            self.bestLength = length
+            self.controller.ui.drawSolution(indexesToRoute(route, self.positions))    

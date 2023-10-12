@@ -104,9 +104,10 @@ def decreaseIterationsAction(controller: Controller, button: Button):
 
 def addDot(controller: Controller, position: tuple):
     drawables = controller.getDrawables()
-    drawables.append(Drawable(position, "dot"))
+    dot = Drawable(position, "dot")
+    drawables.append(dot)
     controller.setDrawables(drawables)
-    controller.drawDrawables()
+    controller.ui.drawObject(dot)
     controller.ui.log(f'Added dot at {position}')
     controller.ui.drawTopText(f'{len(controller.getDrawables())} Dots', 1)
 
