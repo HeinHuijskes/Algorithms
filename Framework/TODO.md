@@ -17,10 +17,12 @@
 - [x] Allow for multiple top texts
 - [x] Make size dynamic and add fullscreen
 - [ ] Add generic buttons
+- [ ] Add colour settings
 - [ ] Add visuals reduction toggle
 - [ ] Improve settings structure
 - [ ] Add a progress bar
 - [ ] Add stats bars
-- [v] Add testing
+- [ ] Add testing
 - [ ] Add button blocking when others are in use
 - [ ] Add text scaling
+- [ ] Look into better GUIs for encasing such as [PySide6](https://www.youtube.com/watch?v=Z1N9JzNax2k)

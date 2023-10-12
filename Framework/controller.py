@@ -63,8 +63,7 @@ class Controller():
         self.timer.setTime(pygame.time.get_ticks())
 
     def showTimer(self):
-        time = (pygame.time.get_ticks()-self.timer.getTime()) // 100 / 10
-        self.ui.drawTopText(f'Time: {time} sec', 0)
+        self.ui.drawTopText(f'Time: {self.timer.getElapsedTime()} sec', 0)
 
     def checkMouseEvent(self, position):
         x, y = position
@@ -97,3 +96,10 @@ class Controller():
     def deactivate(self, button: Button):
         button.active = False
         self.ui.drawButton(button)
+
+    def displayTimeLeft(self, current, length):
+        if current != 0:
+            elapsed = self.timer.getElapsedTime()
+            eta = elapsed*length/current - elapsed
+            timeString = self.timer.getTimeString(eta)
+            self.ui.drawTopText(f'ETA: {timeString}', 5)
