@@ -14,11 +14,11 @@
 - [x] Implement Ant Colony Optimisation Algorithm
 - [x] Look for optimisations in algorithms with benchmarking
 - [x] Add testing
+- [x] Add time left estimate
 - [ ] Add fading pheromone visuals to ACO
 - [ ] Add normalisation to remove inconsistencies between screen sizes and datasets
 - [ ] Make all ACO setting togglable in the GUI
 - [ ] Add seeding
-- [ ] Add time left estimate
 
 - [ ] Add cooler and more efficient algorithms
 - [ ] Implement ACO variants

@@ -102,4 +102,4 @@ class Controller():
             elapsed = self.timer.getElapsedTime()
             eta = elapsed*length/current - elapsed
             timeString = self.timer.getTimeString(eta)
-            self.ui.drawTopText(f'ETA: {timeString}', 5)
+            self.ui.drawTopText(f'ETA: {timeString}', 4)

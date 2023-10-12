@@ -6,7 +6,7 @@ class UISettings():
     height = 500
     menuWidth = 200
     margin = 50
-    topbarWidth = 150
+    topbarWidth = 180
 
     fieldWidth = width - menuWidth
     fieldHeight = height - margin

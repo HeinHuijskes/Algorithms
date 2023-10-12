@@ -18,20 +18,26 @@ class ACOAlgorithm(Algorithm):
     pheromoneDeposit = 1
     initialPheromone = 1
     iterations = 100
+
+    timeIteration: int
     def __init__(self, controller: Controller) -> None:
         super().__init__(controller)
 
     def addIterations(self, change):
         self.iterations = max(1, self.iterations + change)
-
-    def run(self, positions):
+    
+    def initialize(self, positions):
+        self.timeIteration = 0
         self.initializePheromone(positions)
         initLength = self.getRouteLength(positions)
-        bestRoute, bestLength = self.updateRoute([positions], [initLength], positions, initLength+1, 0)
         # Testing proves the antsTravel() part of the algorithm to be the slowest part.
         # According to a paper, around 30% of the network size is an optimal number of ants (albeit for MMAS)
         # (see the "Number of ants" source in README.md)
-        self.ants = max(25, int(len(positions)*0.3))
+        self.ants = max(10, int(len(positions)*0.3))
+        return self.updateRoute([positions], [initLength], positions, initLength+1, 0)
+
+    def run(self, positions):
+        bestRoute, bestLength = self.initialize(positions)
 
         for i in range(self.iterations):
             routes = self.antsTravel(positions)
@@ -68,8 +74,13 @@ class ACOAlgorithm(Algorithm):
                     continue
                 self.pheromoneTrails[(position, pos)] = self.initialPheromone
 
+    def updateTime(self):
+        self.timeIteration += 1
+        self.controller.displayTimeLeft(self.timeIteration, self.iterations)
+
     def antsTravel(self, positions: list[tuple]):
         routes = []
+        self.updateTime()
         for i in range(self.ants):
             current = positions[randint(0, len(positions)-1)]
             visited = [current]
