@@ -17,10 +17,7 @@ def getRandomPositions(width: int, height: int, amount:int , margin: int=0):
     return positions
 
 def indexesToRoute(indexes: list[int], positions: list[tuple]):
-    route = []
-    for i in range(len(positions)):
-        route.append(positions[indexes[i]])
-    return route
+    return [positions[indexes[i]] for i in range(len(positions))]
 
 def getRouteLength(route: list, positions: list[tuple], ):
     # Use pythogoras to find the length between to positions

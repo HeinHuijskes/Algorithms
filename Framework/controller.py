@@ -98,8 +98,9 @@ class Controller():
         self.ui.drawButton(button)
 
     def displayTimeLeft(self, current, length):
-        if current != 0:
+        timeString = 0
+        if current != 0 and current != length:
             elapsed = self.timer.getElapsedTime()
             eta = elapsed*length/current - elapsed
             timeString = self.timer.getTimeString(eta)
-            self.ui.drawTopText(f'ETA: {timeString}', 4)
+        self.ui.drawTopText(f'ETA: {timeString}', 4)
