@@ -11,3 +11,6 @@ class MockUI():
 
 class MockController():
     ui = MockUI()
+
+    def displayTimeLeft(self, timeIteration, iterations):
+        pass

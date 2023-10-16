@@ -1,9 +1,8 @@
 from random import random
-from multiprocess import Process
 import math
 
-from Framework.algorithm import Algorithm
-from Framework.controller import Controller
+from Framework.src.algorithm import Algorithm
+from Framework.src.controller import Controller
 
 from AntColonyOptimization import ACOAlgorithm
 

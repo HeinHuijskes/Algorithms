@@ -1,7 +1,9 @@
 import sys
-sys.path.append("./TravellingSalesman")
 
-from AntColonyOptimization import *
+sys.path.append("../Algorithms/TravellingSalesman")
+sys.path.append("../Algorithms/TravellingSalesman/src")
+
+from src.AntColonyOptimization import *
 from Mocks import MockController
 from time import perf_counter
 from testVars import nodes, scores, routes
@@ -20,13 +22,10 @@ def benchMark(func, args=[], iterations=1000, repeats=5):
     return int(sum(results)/len(results)*100)/100
 
 
-# testNodeNumber = [10, 25, 50, 99]
-# testIterations = [10, 50, 99]
 testNodeNumber = [99]
-testIterations = [25]
+testIterations = [99]
 
 def run():
-    print()
     print(f'Benchmarking ACO.run()')
     for nodeNumber in testNodeNumber:
         algorithm = ACOAlgorithm(MockController())
@@ -57,11 +56,10 @@ def updatePheromones():
     print(f'Benchmarking AOC.updatePheromones()')
     for nodeNumber in testNodeNumber:
         algorithm = ACOAlgorithm(MockController())
-        nodesSubset = nodes[:nodeNumber]
         algorithm.initialize(nodes)
         for iterations in testIterations:
             result = benchMark(algorithm.updatePheromones, args=[routes, scores], iterations=iterations, repeats=1)
-            print(f'> [Iter: {iterations}] [Nodes: {len(nodesSubset)}] Ran in {result} seconds')
+            print(f'> [Iter: {iterations}] [Nodes: {len(nodes)}] Ran in {result} seconds')
     print()
 
 def updateRoute():
@@ -79,7 +77,7 @@ def antsTravel():
         algorithm.ants = max(25, int(len(nodesSubset)*0.3))
         algorithm.initialize(nodesSubset)
         for iterations in testIterations:
-            result = benchMark(algorithm.antsTravel, args=[nodesSubset], iterations=iterations, repeats=1)
+            result = benchMark(algorithm.antsTravel, args=[], iterations=iterations, repeats=1)
             print(f'> [Iter: {iterations}] [Nodes: {len(nodesSubset)}] Ran in {result} seconds')
     print()
 
@@ -97,7 +95,7 @@ def findNextNode():
         # It searches through all positions linearly, and subsequently through all positions minus one, etc., until there is only the one position left.
         # This behaviour is approximated by letting it search through half of all positions every time, which is the average number of positions it should normally search.
         for i in [0, numPositions//2, numPositions-1]:
-            positions = [i for i in range(len(nodesSubset[i:]))]
+            positions = [j for j in range(len(nodesSubset[i:]))]
             for iterations in testIterations:
                 testIteration = iterations * algorithm.ants * numPositions
                 result = benchMark(algorithm.findNextNode, args=[positions, current], iterations=testIteration, repeats=1)
@@ -105,11 +103,12 @@ def findNextNode():
     print()
 
 def test():
-    # run()
-    # scoreRoutes()
-    # updatePheromones()
-    # updateRoute()
-    # antsTravel()
+    print()
+    run()
+    scoreRoutes()
+    updatePheromones()
+    updateRoute()
+    antsTravel()
     findNextNode()
 
 test()

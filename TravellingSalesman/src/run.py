@@ -2,14 +2,15 @@ import sys
 
 sys.path.append("../Algorithms")
 sys.path.append("../Algorithms/Framework")
+sys.path.append("../Algorithms/Framework/src")
 
-from Framework.controller import Controller
-from Framework.ui import UI
-from Framework.button import Button
-from Framework.drawable import *
+from Framework.src.controller import Controller
+from Framework.src.ui import UI
+from Framework.src.button import Button
+from Framework.src.drawable import *
 from TSMAlgorithm import TSMAlgorithm, getRandomPositions, getRouteLength
 
-from Framework.uiSettings import UISettings
+from Framework.src.uiSettings import UISettings
 from tsmparams import TSMParameters
 
 algorithm: TSMAlgorithm

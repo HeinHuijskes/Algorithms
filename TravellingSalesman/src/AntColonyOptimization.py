@@ -1,12 +1,12 @@
 import sys
-sys.path.append("../Algorithms/Framework")
+sys.path.append("../Algorithms/Framework/src")
 sys.path.append("../Algorithms")
 
 import math
 from random import randint, choices
 
-from Framework.algorithm import Algorithm
-from Framework.controller import Controller
+from Framework.src.algorithm import Algorithm
+from Framework.src.controller import Controller
 
 class ACOAlgorithm(Algorithm):
     positions: list[tuple]
@@ -30,10 +30,10 @@ class ACOAlgorithm(Algorithm):
     def __init__(self, controller: Controller) -> None:
         super().__init__(controller)
 
-    def addIterations(self, change):
+    def addIterations(self, change: int):
         self.iterations = max(1, self.iterations + change)
 
-    def initialize(self, positions):
+    def initialize(self, positions: list[tuple]):
         self.positionsSize = len(positions)
         self.positions = positions
         self.initializePheromone()
@@ -50,7 +50,7 @@ class ACOAlgorithm(Algorithm):
     def initializePheromone(self):
         self.pheromoneTrails = [[self.initialPheromone for i in range(self.positionsSize)] for j in range(self.positionsSize)]
 
-    def run(self, positions):
+    def run(self, positions: list[tuple]):
         bestRoute, bestLength = self.initialize(positions)
 
         for i in range(self.iterations):
@@ -69,7 +69,7 @@ class ACOAlgorithm(Algorithm):
         self.updateTime()
         if oldBest != bestLength:
             self.controller.ui.drawSolution([self.positions[bestRoute[i]] for i in range(self.positionsSize)])
-        if iteration % (self.iterations//10) == 0:
+        if self.iterations < 10 or iteration % (self.iterations//10) == 0:
             self.log(f'({iteration}): c={int(min(scores))} b={int(bestLength)}')
         return bestRoute, bestLength
 
@@ -109,10 +109,10 @@ class ACOAlgorithm(Algorithm):
         probabilities = [desire/total for desire in desirabilities]
         return choices(nextPositions, weights=probabilities)[0]
 
-    def scoreRoutes(self, routes):
+    def scoreRoutes(self, routes: list[list[int]]):
         return [self.getRouteLength(route) for route in routes]
     
-    def getRouteLength(self, route):
+    def getRouteLength(self, route: list[list[int]]):
         length = 0
         prev = route[-1]
         for node in route:
@@ -120,12 +120,12 @@ class ACOAlgorithm(Algorithm):
             prev = node
         return length
 
-    def distance(self, node1, node2):
+    def distance(self, node1: int, node2: int):
         len1 = (self.positions[node1][0]-self.positions[node2][0])
         len2 = (self.positions[node1][1]-self.positions[node2][1])
         return math.sqrt(len1*len1 + len2*len2)
 
-    def updatePheromones(self, routes, scores):
+    def updatePheromones(self, routes: list[list[int]], scores: list[float]):
         # Evaporate pheromones
         for i in range(self.positionsSize):
             for j in range(self.positionsSize):

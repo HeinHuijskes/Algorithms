@@ -1,4 +1,4 @@
-from Framework.parameters import Parameters
+from Framework.src.parameters import Parameters
 
 class TSMParameters(Parameters):
     def __init__(self) -> None:
