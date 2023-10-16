@@ -1,7 +1,7 @@
 import time
 
-from wfc import Map
-from view import TUI, GUI
+from WFCAlgorithm import Map
+from TUI import TUI
 
 
 def run_algorithm(size):
@@ -42,7 +42,7 @@ def time_test(size=20, iterations=100):
     print(str(successes), 'successes and', str(iterations-successes), 'failures')
 
 
-# run_algorithm_print(10, print_stepwise_map=True)
-run_algorithm_print(50)
+run_algorithm_print(10, print_stepwise_map=True)
+# run_algorithm_print(50)
 # run_algorithm(50)
 # time_test(size=50, iterations=25)

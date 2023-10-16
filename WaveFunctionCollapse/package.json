@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "pillow": "^0.0.9",
-    "pytest": "^1.0.0",
-    "vitest": "^0.34.2"
-  }
-}

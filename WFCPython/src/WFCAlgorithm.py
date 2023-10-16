@@ -79,7 +79,10 @@ class Map:
 
     def collapse(self, cell):
         cell.pick_state()
-        self.propagate_change(cell)
+        for neighbour in self.neighbours(cell):
+            if not neighbour.collapsed:
+                neighbour.restrict(cell)
+        # self.propagate_change(cell)
 
     def propagate_change(self, cell):
         change_queue = self.neighbours(cell)
@@ -88,8 +91,8 @@ class Map:
             change = cell.restrict(queue_cell)
             if self.hasContradiction:
                 break
-            if change:
-                self.propagate_change(queue_cell)
+            # if change:
+            #     self.propagate_change(queue_cell)
 
     def neighbours(self, cell):
         neighbours = []

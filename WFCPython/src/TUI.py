@@ -24,7 +24,3 @@ class TUI:
 
     def print(self, message):
         print(message)
-
-
-class GUI:
-    pass
