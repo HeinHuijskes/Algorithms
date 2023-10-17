@@ -16,6 +16,8 @@
 - [x] Move logging to the GUI
 - [x] Allow for multiple top texts
 - [x] Make size dynamic and add fullscreen
+- [x] Add example for framework use
+- [ ] Abstract generic logic to button class
 - [ ] Add generic buttons
 - [ ] Add colour settings
 - [ ] Add visuals reduction toggle
