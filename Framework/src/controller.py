@@ -57,7 +57,7 @@ class Controller():
     def drawDrawables(self):
         self.ui.clearOutputScreen()
         for drawable in self.drawables:
-            self.ui.drawObject(drawable)
+            drawable.draw(self.ui)
     
     def startTimer(self):
         self.timer.setTime(pygame.time.get_ticks())

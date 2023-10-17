@@ -42,15 +42,14 @@ class UI():
             button.size = (buttonWidth, button.size[1])
             # Move the current position sideways by the size of the button and a margin
             position = (position[0] + button.buttonSize * smallSize, position[1])
-    
-    def drawObject(self, drawable: Drawable):
-        if drawable.drawType == "dot":
-            self.drawDot(drawable.value)
-        else:
-            self.log(f'Unrecognized drawtype "{drawable.drawType}"', warning=True)
 
-    def drawDot(self, position):
+    def drawDot(self, position: tuple):
         pygame.draw.circle(self.screen, self.settings.dotColour, position, self.settings.dotSize)
+
+    def drawTile(self, position: tuple, size: float, value):
+        tile = pygame.Rect(position[0], position[1], size, size)
+        pygame.draw.rect(self.screen, value, tile)
+        pass
 
     def drawButtonOutline(self, button: Button, colour):
         pos, size = button.position, button.size
