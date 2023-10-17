@@ -90,7 +90,7 @@ class Controller():
     def performAction(self, button: Button):
         button.active = True
         self.ui.drawButton(button)
-        actionThread = Thread(target=button.action, args=(self, button))
+        actionThread = Thread(target=button.click, args=[self])
         actionThread.start()
 
     def deactivate(self, button: Button):

@@ -16,3 +16,7 @@ class Button():
 
     font = "Corbel"
     fontColour = "black"
+
+    def click(self, controller):
+        self.action(controller)
+        controller.deactivate(self)

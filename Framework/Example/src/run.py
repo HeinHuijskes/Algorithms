@@ -15,9 +15,8 @@ buttons: list[Button]
 width: int
 height: int
 
-def logAction(controller: Controller, button: Button):
+def logAction(controller: Controller):
     controller.ui.log("Logged")
-    controller.deactivate(button)
 
 def inFieldAction(controller: Controller, position: tuple):
     drawables = controller.getDrawables()

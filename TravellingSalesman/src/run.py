@@ -18,42 +18,39 @@ buttons: list[Button]
 width: int
 height: int
 
-def bruteForceAction(controller: Controller, button: Button):
+def bruteForceAction(controller: Controller):
     positions = [drawable.value for drawable in controller.getDrawables()]
     controller.startTimer()
     controller.timer.toggle()
     solution = algorithm.bruteForce(positions)
     controller.timer.toggle()
     showSolution(controller.ui, solution)
-    controller.deactivate(button)
 
-def resetDotsAction(controller: Controller, button: Button):
+def resetDotsAction(controller: Controller):
     positions = getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)
     controller.setDrawables(makeDrawables(positions, "dot"))
     controller.drawDrawables()
-    controller.deactivate(button)
 
-def toggleParallelAction(controller: Controller, button: Button):
+def toggleParallelAction(controller: Controller):
     controller.parameters.parallel = not controller.parameters.parallel
     if controller.parameters.parallel:
         controller.ui.log("Parallel turned ON")
     else:
         controller.ui.log("Parallel turned OFF")
-    controller.deactivate(button)
 
-def plusOne(controller: Controller, button: Button):
-    changeDotsAction(1, controller, button)
+def plusOne(controller: Controller):
+    changeDotsAction(1, controller)
 
-def plusTen(controller: Controller, button: Button):
-    changeDotsAction(10, controller, button)
+def plusTen(controller: Controller):
+    changeDotsAction(10, controller)
     
-def minusOne(controller: Controller, button: Button):
-    changeDotsAction(-1, controller, button)
+def minusOne(controller: Controller):
+    changeDotsAction(-1, controller)
     
-def minusTen(controller: Controller, button: Button):
-    changeDotsAction(-10, controller, button)
+def minusTen(controller: Controller):
+    changeDotsAction(-10, controller)
 
-def changeDotsAction(amount: int, controller: Controller, button: Button):
+def changeDotsAction(amount: int, controller: Controller):
     positions = unMakeDrawables(controller.getDrawables())
     added = len(positions)
     
@@ -75,16 +72,14 @@ def changeDotsAction(amount: int, controller: Controller, button: Button):
     else: 
         controller.ui.log(f'Removed {added} dots')
     controller.ui.drawTopText(f'{len(controller.getDrawables())} Dots', 1)
-    controller.deactivate(button)
 
-def runACOAction(controller: Controller, button: Button):
+def runACOAction(controller: Controller):
     controller.startTimer()
     controller.timer.toggle()
     algorithm.aco.run(unMakeDrawables(controller.getDrawables()))
     controller.timer.toggle()
-    controller.deactivate(button)
 
-def increaseIterationsAction(controller: Controller, button: Button):
+def increaseIterationsAction(controller: Controller):
     if algorithm.aco.iterations == 1:
         algorithm.aco.addIterations(4)
     elif algorithm.aco.iterations < 25:
@@ -93,15 +88,13 @@ def increaseIterationsAction(controller: Controller, button: Button):
         algorithm.aco.addIterations(25)
         
     controller.ui.log(f'Set iterations to {algorithm.aco.iterations}')
-    controller.deactivate(button)
 
-def decreaseIterationsAction(controller: Controller, button: Button):
+def decreaseIterationsAction(controller: Controller):
     if algorithm.aco.iterations <= 25:
         algorithm.aco.addIterations(-5)
     else:
         algorithm.aco.addIterations(-25)
     controller.ui.log(f'Set iterations to {algorithm.aco.iterations}')
-    controller.deactivate(button)
 
 def addDot(controller: Controller, position: tuple):
     drawables = controller.getDrawables()
