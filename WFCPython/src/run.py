@@ -26,6 +26,7 @@ def resetBoard(controller: Controller):
     controller.redrawDrawables()
 
 def runAlgorithm(controller: Controller):
+    controller.startTimer()
     cellMap = Map(board.columns)
     fails = 0
     drawMap(cellMap)
@@ -37,6 +38,7 @@ def runAlgorithm(controller: Controller):
             controller.ui.log("Failed!")
             fails += 1
         drawMap(cellMap, cellMap.hasContradiction)
+    controller.stopTimer()
     if not cellMap.is_solved():
         controller.ui.log("Failed to solve map")
     else:
@@ -64,6 +66,7 @@ def resetTiles(controller: Controller):
     controller.setDrawables(board.getDrawables())
     controller.redrawDrawables()
     controller.ui.log(f'Tilemap size set to ({board.rows},{board.columns})')
+    controller.ui.drawTopText(f'Size: ({board.rows}, {board.columns})', 1)
 
 def increaseDimensions(controller: Controller, rows=1, columns=1):
     board.rows = board.rows + columns
@@ -134,6 +137,7 @@ width, height = controller.ui.settings.fieldWidth, controller.ui.settings.fieldH
 algorithm = WFCAlgorithm(controller)
 board = UIBoard(startSize, startSize, controller.ui)
 cellMap = Map(startSize)
+controller.ui.drawTopText(f'Size: ({board.rows}, {board.columns})', 1)
 controller.setDrawables(board.getDrawables())
 
 controller.run()

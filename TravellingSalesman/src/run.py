@@ -21,9 +21,8 @@ height: int
 def bruteForceAction(controller: Controller):
     positions = [drawable.value for drawable in controller.getDrawables()]
     controller.startTimer()
-    controller.timer.toggle()
     solution = algorithm.bruteForce(positions)
-    controller.timer.toggle()
+    controller.stopTimer()
     showSolution(controller.ui, solution)
 
 def resetDotsAction(controller: Controller):

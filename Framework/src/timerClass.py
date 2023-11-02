@@ -6,9 +6,6 @@ class Timer():
 
     runTimer = False
     time = 0
-
-    def toggle(self):
-        self.runTimer = not self.runTimer
     
     def setTime(self, time):
         self.time = time

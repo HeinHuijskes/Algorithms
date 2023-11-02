@@ -65,6 +65,10 @@ class Controller():
     
     def startTimer(self):
         self.timer.setTime(pygame.time.get_ticks())
+        self.timer.runTimer = True
+
+    def stopTimer(self):
+        self.timer.runTimer = False
 
     def showTimer(self):
         self.ui.drawTopText(f'Time: {self.timer.getElapsedTime()} sec', 0)
