@@ -11,11 +11,14 @@ from wfcparams import WFCParameters
 from WFCPython.src.UIBoard import UITile, UIBoard, resetTilePositions
 from Map import Map
 
+start_rows = 25
+start_columns = 40
+allowedFails = 10
+
 algorithm: WFCAlgorithm
 buttons: list[Button]
 board: UIBoard
 cellMap: Map
-startSize = 25
 width: int
 height: int
 
@@ -27,10 +30,10 @@ def resetBoard(controller: Controller):
 
 def runAlgorithm(controller: Controller):
     controller.startTimer()
-    cellMap = Map(board.columns)
+    cellMap = Map(board.columns, board.rows)
     fails = 0
     drawMap(cellMap)
-    while not cellMap.is_solved() and fails < 5:
+    while not cellMap.is_solved() and fails < allowedFails:
         cell = cellMap.find_lowest_entropy_cell()
         cellMap.collapse(cell)
         if cellMap.hasContradiction:
@@ -135,8 +138,7 @@ buttons = [
 controller = Controller(WFCParameters(), buttons=buttons)
 width, height = controller.ui.settings.fieldWidth, controller.ui.settings.fieldHeight
 algorithm = WFCAlgorithm(controller)
-board = UIBoard(startSize, startSize, controller.ui)
-cellMap = Map(startSize)
+board = UIBoard(start_columns, start_rows, controller.ui)
 controller.ui.drawTopText(f'Size: ({board.rows}, {board.columns})', 1)
 controller.setDrawables(board.getDrawables())
 

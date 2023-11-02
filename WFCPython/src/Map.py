@@ -19,18 +19,19 @@ class Map:
             self.colour = colour
             self.colour_level = colour_level
 
-    def __init__(self, size):
+    def __init__(self, size_x: int, size_y: int):
         self.directions = self.DIRECTIONS()
         self.tiles = []
         self.set_tiles()
         self.ruleSet = []
         self.set_rules()
-        self.size = size
-        self.cells = [[self.Cell(x, y, self) for x in range(0, self.size)] for y in range(0, self.size)]
+        self.size_x = size_x
+        self.size_y = size_y
+        self.cells = [[self.Cell(x, y, self) for y in range(0, self.size_y)] for x in range(0, self.size_x)]
         self.hasContradiction = False
 
     def reset(self):
-        self.cells = [[self.Cell(x, y, self) for x in range(0, self.size)] for y in range(0, self.size)]
+        self.cells = [[self.Cell(x, y, self) for y in range(0, self.size_y)] for x in range(0, self.size_x)]
         self.hasContradiction = False
 
     def set_tiles(self):
@@ -63,14 +64,14 @@ class Map:
 
     def find_lowest_entropy_cell(self):
         lowest = None
-        for row in self.cells:
-            for cell in row:
+        for column in self.cells:
+            for cell in column:
                 if not cell.collapsed and (lowest is None or cell.entropy() < lowest.entropy()):
                     lowest = cell
 
         lows = []
-        for row in self.cells:
-            for cell in row:
+        for column in self.cells:
+            for cell in column:
                 if not cell.collapsed and cell.entropy() == lowest.entropy():
                     lows.append(cell)
         index = math.floor(random.random() * len(lows))
@@ -98,13 +99,13 @@ class Map:
     def neighbours(self, cell):
         neighbours = []
         if cell.x > 0:
-            neighbours.append(self.cells[cell.y][cell.x-1])
-        if cell.x < self.size-1:
-            neighbours.append(self.cells[cell.y][cell.x+1])
+            neighbours.append(self.cells[cell.x-1][cell.y])
+        if cell.x < self.size_x-1:
+            neighbours.append(self.cells[cell.x+1][cell.y])
         if cell.y > 0:
-            neighbours.append(self.cells[cell.y-1][cell.x])
-        if cell.y < self.size-1:
-            neighbours.append(self.cells[cell.y+1][cell.x])
+            neighbours.append(self.cells[cell.x][cell.y-1])
+        if cell.y < self.size_y-1:
+            neighbours.append(self.cells[cell.x][cell.y+1])
         return neighbours
 
     def create_map(self):
