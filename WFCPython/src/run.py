@@ -28,19 +28,19 @@ def resetTiles(controller: Controller):
     controller.drawDrawables()
     controller.ui.log(f'Tilemap size set to ({board.rows},{board.columns})')
 
-def increaseDimensions(controller: Controller, x=1, y=1):
-    board.rows = board.rows + y
-    board.columns = board.columns + x
+def increaseDimensions(controller: Controller, rows=1, columns=1):
+    board.rows = board.rows + columns
+    board.columns = board.columns + rows
     for row in board.tiles:
-        for i in range(y):
+        for i in range(columns):
             row.append(UITile())
-    for i in range(x):
+    for i in range(rows):
         board.tiles.append([UITile() for i in range(board.rows)])
     resetTiles(controller)
 
-def decreaseDimensions(controller: Controller, x=1, y=1):
-    board.rows = max(1, board.rows - y)
-    board.columns = max(1, board.columns - x)
+def decreaseDimensions(controller: Controller, columns=1, rows=1):
+    board.rows = max(1, board.rows - columns)
+    board.columns = max(1, board.columns - rows)
     tiles = []
     for i in range(board.columns):
         tiles.append([])
@@ -50,23 +50,23 @@ def decreaseDimensions(controller: Controller, x=1, y=1):
     resetTiles(controller)
 
 def largeIncrease(controller: Controller):
-    increaseDimensions(controller, x=10, y=10)
+    increaseDimensions(controller, rows=10, columns=10)
 def largeDecrease(controller: Controller):
-    decreaseDimensions(controller, x=10, y=10)
+    decreaseDimensions(controller, rows=10, columns=10)
 
 def increaseX(controller: Controller, amount=1):
-    increaseDimensions(controller, x=amount, y=0)
+    increaseDimensions(controller, columns=amount, rows=0)
 def decreaseX(controller: Controller, amount=1):
-    decreaseDimensions(controller, x=amount, y=0)
+    decreaseDimensions(controller, columns=amount, rows=0)
 def largeIncreaseX(controller: Controller):
     increaseX(controller, 10)
 def largeDecreaseX(controller: Controller):
     decreaseX(controller, 10)
 
 def increaseY(controller: Controller, amount=1):
-    increaseDimensions(controller, x=0, y=amount)
+    increaseDimensions(controller, columns=0, rows=amount)
 def decreaseY(controller: Controller, amount=1):
-    decreaseDimensions(controller, x=0, y=amount)
+    decreaseDimensions(controller, columns=0, rows=amount)
 def largeIncreaseY(controller: Controller):
     increaseY(controller, 10)
 def largeDecreaseY(controller: Controller):
@@ -76,7 +76,7 @@ sizeButtons = [
     Button(label="s+", action=increaseDimensions, buttonSize=1),
     Button(label="s++", action=largeIncrease, buttonSize=1),
     Button(label="s--", action=largeDecrease, buttonSize=1),
-    Button(label="s-", action=increaseDimensions, buttonSize=1),
+    Button(label="s-", action=decreaseDimensions, buttonSize=1),
     Button(label="y+", action=increaseY, buttonSize=1),
     Button(label="y++", action=largeIncreaseY, buttonSize=1),
     Button(label="y--", action=largeDecreaseY, buttonSize=1),
