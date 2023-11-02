@@ -17,11 +17,14 @@ class UITile:
     size: float
     colour: str
     drawable: any
-    def __init__(self, x=0.0, y=0.0, size=100, colour="white") -> None:
+    def __init__(self, x=0.0, y=0.0, size=100, colour="white", randomColour=False) -> None:
         self.x = x
         self.y = y
         self.size = size
-        self.colour = TILE_COLOURS[randint(0, len(TILE_COLOURS)-1)]
+        if randomColour:
+            self.colour = TILE_COLOURS[randint(0, len(TILE_COLOURS)-1)]
+        else:
+            self.colour = colour
     
     def draw(self, ui):
         self.drawable.draw(ui)
@@ -33,18 +36,22 @@ class UIBoard:
     columns: int
 
     def __init__(self, rows, columns, ui) -> None:
-        tiles = []
-        self.rows = rows
-        self.columns = columns
         self.width = ui.settings.fieldWidth
         self.height = ui.settings.fieldHeight
         self.x = 0
         self.y = ui.settings.margin
         self.resetTile = Drawable((self.x, self.y), "tile", size=self.height, value=ui.settings.bgColour)
-        for i in range(columns):
-            tiles.append([])
-            for j in range(rows):
-                tiles[-1].append(UITile())
+        self.setTiles(rows, columns)
+
+    def setTiles(self, rows, columns, tiles=None):
+        self.rows = rows
+        self.columns = columns
+        if tiles == None:
+            tiles = []
+            for i in range(columns):
+                tiles.append([])
+                for j in range(rows):
+                    tiles[-1].append(UITile())
         self.tiles = tiles
         resetTilePositions(self)
     

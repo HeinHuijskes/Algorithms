@@ -13,9 +13,10 @@ class Map:
             return [self.RIGHT, self.LEFT, self.UP, self.DOWN]
 
     class Tile:
-        def __init__(self, name, frequency, colour_level):
+        def __init__(self, name, frequency, colour_level, colour="black"):
             self.name = name
             self.frequency = frequency
+            self.colour = colour
             self.colour_level = colour_level
 
     def __init__(self, size):
@@ -33,12 +34,12 @@ class Map:
         self.hasContradiction = False
 
     def set_tiles(self):
-        self.tiles.append(self.Tile('HEAVEN', 8, 0))
-        self.tiles.append(self.Tile('MOUNTAIN', 15, 1))
-        self.tiles.append(self.Tile('LAND', 15, 2))
-        self.tiles.append(self.Tile('COAST', 15, 3))
-        self.tiles.append(self.Tile('SEA', 15, 4))
-        self.tiles.append(self.Tile('OCEAN', 8, 5))
+        self.tiles.append(self.Tile('HEAVEN', 8, 0, colour="white"))
+        self.tiles.append(self.Tile('MOUNTAIN', 15, 1, colour="grey"))
+        self.tiles.append(self.Tile('LAND', 15, 2, colour="green"))
+        self.tiles.append(self.Tile('COAST', 15, 3, colour="yellow"))
+        self.tiles.append(self.Tile('SEA', 15, 4, colour="blue"))
+        self.tiles.append(self.Tile('OCEAN', 8, 5, colour="purple"))
 
     def set_rules(self):
         [self.ruleSet.append(('HEAVEN', 'HEAVEN', direction)) for direction in self.directions.all()]

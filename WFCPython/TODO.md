@@ -1,0 +1,9 @@
+- [x] Add tiles
+- [x] Add algorithm to GUI
+- [ ] Optimize visual loading GUI
+- [ ] Merge different cell types
+- [ ] Optimize and decrease overhead code
+- [ ] Add timer
+- [ ] Add differing x and y dimensions
+- [ ] Add map reader
+- [ ] Add manual click cell collapse

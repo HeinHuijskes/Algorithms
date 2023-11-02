@@ -9,16 +9,50 @@ from Framework.src.button import Button
 from WFCAlgorithm import WFCAlgorithm
 from wfcparams import WFCParameters
 from WFCPython.src.UIBoard import UITile, UIBoard, resetTilePositions
+from Map import Map
 
 algorithm: WFCAlgorithm
 buttons: list[Button]
 board: UIBoard
+cellMap: Map
+startSize = 15
 width: int
 height: int
 
 
 def resetBoard(controller: Controller):
     board.__init__(10, 10, controller.ui)
+    controller.setDrawables(board.getDrawables())
+    controller.drawDrawables()
+
+def runAlgorithm(controller: Controller):
+    cellMap = Map(board.columns)
+    fails = 0
+    while not cellMap.is_solved() and fails < 5:
+        drawMap(cellMap)
+        cell = cellMap.find_lowest_entropy_cell()
+        cellMap.collapse(cell)
+        if cellMap.hasContradiction:
+            cellMap.reset()
+            controller.ui.log("Failed!")
+            fails += 1
+    if not cellMap.is_solved():
+        controller.ui.log("Failed to solve map")
+    else:
+        controller.ui.log("Solved!")
+    drawMap(cellMap)
+
+def drawMap(cellMap: Map):
+    tiles = []
+    for row in cellMap.cells:
+        tiles.append([])
+        for cell in row:
+            if cell.state != None:
+                tiles[-1].append(UITile(colour=cell.state.colour))
+            else:
+                tiles[-1].append(UITile(colour="black"))
+    board.tiles = tiles
+    resetTilePositions(board)
     controller.setDrawables(board.getDrawables())
     controller.drawDrawables()
 
@@ -89,12 +123,14 @@ sizeButtons = [
 
 buttons = [
     Button(label="Reset", action=resetBoard),
+    Button(label="WFC", action=runAlgorithm)
 ] + sizeButtons
 
 controller = Controller(WFCParameters(), buttons=buttons)
 width, height = controller.ui.settings.fieldWidth, controller.ui.settings.fieldHeight
 algorithm = WFCAlgorithm(controller)
-board = UIBoard(10, 10, controller.ui)
+board = UIBoard(startSize, startSize, controller.ui)
+cellMap = Map(startSize)
 controller.setDrawables(board.getDrawables())
 
 controller.run()
