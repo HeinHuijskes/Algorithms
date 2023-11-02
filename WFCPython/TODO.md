@@ -1,9 +1,12 @@
 - [x] Add tiles
 - [x] Add algorithm to GUI
-- [ ] Optimize visual loading GUI
+- [x] Optimize visual loading GUI
+- [ ] Add togglable colours
 - [ ] Merge different cell types
 - [ ] Optimize and decrease overhead code
 - [ ] Add timer
 - [ ] Add differing x and y dimensions
 - [ ] Add map reader
 - [ ] Add manual click cell collapse
+- [ ] Optimize algorithm
+- [ ] Add long propagation

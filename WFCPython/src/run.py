@@ -15,7 +15,7 @@ algorithm: WFCAlgorithm
 buttons: list[Button]
 board: UIBoard
 cellMap: Map
-startSize = 15
+startSize = 25
 width: int
 height: int
 
@@ -23,26 +23,26 @@ height: int
 def resetBoard(controller: Controller):
     board.__init__(10, 10, controller.ui)
     controller.setDrawables(board.getDrawables())
-    controller.drawDrawables()
+    controller.redrawDrawables()
 
 def runAlgorithm(controller: Controller):
     cellMap = Map(board.columns)
     fails = 0
+    drawMap(cellMap)
     while not cellMap.is_solved() and fails < 5:
-        drawMap(cellMap)
         cell = cellMap.find_lowest_entropy_cell()
         cellMap.collapse(cell)
         if cellMap.hasContradiction:
             cellMap.reset()
             controller.ui.log("Failed!")
             fails += 1
+        drawMap(cellMap, cellMap.hasContradiction)
     if not cellMap.is_solved():
         controller.ui.log("Failed to solve map")
     else:
         controller.ui.log("Solved!")
-    drawMap(cellMap)
 
-def drawMap(cellMap: Map):
+def drawMap(cellMap: Map, redraw=True):
     tiles = []
     for row in cellMap.cells:
         tiles.append([])
@@ -54,12 +54,15 @@ def drawMap(cellMap: Map):
     board.tiles = tiles
     resetTilePositions(board)
     controller.setDrawables(board.getDrawables())
-    controller.drawDrawables()
+    if redraw:
+        controller.redrawDrawables()
+    else:
+        controller.drawDrawables()
 
 def resetTiles(controller: Controller):
     resetTilePositions(board)
     controller.setDrawables(board.getDrawables())
-    controller.drawDrawables()
+    controller.redrawDrawables()
     controller.ui.log(f'Tilemap size set to ({board.rows},{board.columns})')
 
 def increaseDimensions(controller: Controller, rows=1, columns=1):

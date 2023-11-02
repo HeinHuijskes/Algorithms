@@ -29,7 +29,7 @@ def bruteForceAction(controller: Controller):
 def resetDotsAction(controller: Controller):
     positions = getRandomPositions(width, height, TSMParameters.dots, UISettings.margin)
     controller.setDrawables([Drawable(position) for position in positions])
-    controller.drawDrawables()
+    controller.redrawDrawables()
 
 def toggleParallelAction(controller: Controller):
     controller.parameters.parallel = not controller.parameters.parallel
@@ -65,7 +65,7 @@ def changeDotsAction(amount: int, controller: Controller):
                 break
 
     controller.setDrawables([Drawable(position) for position in positions])
-    controller.drawDrawables()
+    controller.redrawDrawables()
     added = abs(len(positions) - added)
     if amount > 0:
         controller.ui.log(f'Added {added} dots')

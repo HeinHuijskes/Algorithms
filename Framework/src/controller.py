@@ -34,7 +34,7 @@ class Controller():
     
     def run(self):
         running = True
-        self.drawDrawables()
+        self.redrawDrawables()
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -55,6 +55,10 @@ class Controller():
         self.ui.drawScreen()
     
     def drawDrawables(self):
+        for drawable in self.drawables:
+            drawable.draw(self.ui)
+
+    def redrawDrawables(self):
         self.ui.clearOutputScreen()
         for drawable in self.drawables:
             drawable.draw(self.ui)
