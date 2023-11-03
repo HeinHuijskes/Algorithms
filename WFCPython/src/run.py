@@ -6,13 +6,14 @@ sys.path.append("../Algorithms/Framework/src")
 
 from Framework.src.controller import Controller
 from Framework.src.button import Button
+from Framework.src.drawable import Drawable
 from WFCAlgorithm import WFCAlgorithm
 from wfcparams import WFCParameters
 from WFCPython.src.UIBoard import UITile, UIBoard, resetTilePositions
 from Map import Map
 
 start_rows = 25
-start_columns = 40
+start_columns = 42
 allowedFails = 10
 
 algorithm: WFCAlgorithm
@@ -29,26 +30,56 @@ def resetBoard(controller: Controller):
     controller.redrawDrawables()
 
 def runAlgorithm(controller: Controller):
+    if not board.showProcess:
+        quickRun(controller)
+        return
     controller.startTimer()
     cellMap = Map(board.columns, board.rows)
     fails = 0
-    drawMap(cellMap)
+    drawMap(cellMap, controller, redraw=True)
     while not cellMap.is_solved() and fails < allowedFails:
         cell = cellMap.find_lowest_entropy_cell()
         cellMap.collapse(cell)
+        drawMap(cellMap, controller)
         if cellMap.hasContradiction:
             cellMap.reset()
             controller.ui.log("Failed!")
             fails += 1
-        drawMap(cellMap, cellMap.hasContradiction)
+            drawMap(cellMap, controller, redraw=True)
     controller.stopTimer()
     if not cellMap.is_solved():
         controller.ui.log("Failed to solve map")
     else:
         controller.ui.log("Solved!")
 
-def drawMap(cellMap: Map, redraw=True):
+def quickRun(controller: Controller):
+    controller.startTimer()
+    cellMap = Map(board.columns, board.rows)
+    cellMap.create_map()
+    controller.stopTimer()
+    if cellMap.is_solved():
+        controller.ui.log("Success!")
+    else:
+        controller.ui.log("Failed!")
+    drawMap(cellMap, controller, redraw=True)
+
+def toggleShowEntropy(controller: Controller):
+    board.showEntropy = not board.showEntropy
+    if board.showEntropy:
+        controller.ui.log("Entropy toggled ON")
+    else:
+        controller.ui.log("Entropy toggled OFF")
+
+def toggleProcess(controller: Controller):
+    board.showProcess = not board.showProcess
+    if board.showProcess:
+        controller.ui.log("Process visuals toggled ON")
+    else:
+        controller.ui.log("Process visuals toggled OFF")
+
+def drawMap(cellMap: Map, controller: Controller, redraw=False):
     tiles = []
+    texts = []
     for row in cellMap.cells:
         tiles.append([])
         for cell in row:
@@ -56,9 +87,19 @@ def drawMap(cellMap: Map, redraw=True):
                 tiles[-1].append(UITile(colour=cell.state.colour))
             else:
                 tiles[-1].append(UITile(colour="black"))
+            if board.showEntropy:  # and cell.collapsed
+                texts.append(str(cell.entropy()))
     board.tiles = tiles
     resetTilePositions(board)
-    controller.setDrawables(board.getDrawables())
+    drawDrawables(controller, redraw, texts)
+
+def drawDrawables(controller: Controller, redraw: bool, texts: list[str]):
+    drawables = board.getDrawables(getAll = redraw or board.showEntropy)
+    if board.showEntropy:
+        for i, text in enumerate(texts):
+            tile = drawables[i]
+            drawables.append(Drawable(tile.position, "text", (tile.size, tile.size), text))
+    controller.setDrawables(drawables)
     if redraw:
         controller.redrawDrawables()
     else:
@@ -132,7 +173,9 @@ sizeButtons = [
 
 buttons = [
     Button(label="Reset", action=resetBoard),
-    Button(label="WFC", action=runAlgorithm)
+    Button(label="WFC", action=runAlgorithm),
+    Button(label="Entropy", action=toggleShowEntropy),
+    Button(label="Show updates", action=toggleProcess),
 ] + sizeButtons
 
 controller = Controller(WFCParameters(), buttons=buttons)

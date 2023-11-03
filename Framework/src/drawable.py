@@ -12,5 +12,7 @@ class Drawable():
             ui.drawDot(self.position)
         elif self.drawType == "tile":
             ui.drawTile(self.position, self.size, self.value)
+        elif self.drawType == "text":
+            ui.drawText(self.position, self.size, self.value)
         else:
             self.log(f'Unrecognized drawtype "{self.drawType}"', warning=True)

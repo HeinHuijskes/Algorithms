@@ -17,7 +17,7 @@ class UITile:
     size: float
     colour: str
     drawable: any
-    def __init__(self, x=0.0, y=0.0, size=100, colour="white", randomColour=False) -> None:
+    def __init__(self, x=0.0, y=0.0, size=100, colour="black", randomColour=False) -> None:
         self.x = x
         self.y = y
         self.size = size
@@ -34,6 +34,8 @@ class UIBoard:
     tiles: list[list[UITile]]
     rows: int
     columns: int
+    showEntropy = False
+    showProcess = True
 
     def __init__(self, rows, columns, ui) -> None:
         self.width = ui.settings.fieldWidth
@@ -55,11 +57,12 @@ class UIBoard:
         self.tiles = tiles
         resetTilePositions(self)
     
-    def getDrawables(self):
+    def getDrawables(self, getAll=False):
         drawables = []
         for row in self.tiles:
             for tile in row:
-                drawables.append(tile.drawable)
+                if tile.colour != "black" or getAll:
+                    drawables.append(tile.drawable)
         return drawables
 
 

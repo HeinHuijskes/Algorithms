@@ -3,6 +3,8 @@
 - [x] Optimize visual loading GUI
 - [x] Add timer and size text
 - [x] Add differing x and y dimensions
+- [x] Add entropy button and quickrun button
+- [ ] Implement more efficient entropy calculation and/or storage
 - [ ] Remember maps
 - [ ] Add togglable colours
 - [ ] Merge different cell types

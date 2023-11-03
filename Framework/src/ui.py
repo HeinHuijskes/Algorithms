@@ -55,6 +55,12 @@ class UI():
         pos, size = button.position, button.size
         pygame.draw.rect(self.screen, colour, pygame.Rect(pos[0], pos[1], size[0], size[1]), button.borderSize)
 
+    def drawText(self, position, size, textString, fontSize=12, fontColour="white"):
+        font = pygame.font.SysFont(self.settings.font, fontSize)
+        text = font.render(textString, True, fontColour)
+        text_rect = text.get_rect(center=(position[0]+size[0]/2, position[1]+size[1]/2))
+        self.screen.blit(text, text_rect)
+
     def drawTopText(self, textString, slot):
         if slot >= self.settings.fieldWidth // self.settings.topbarWidth:
             self.log("Top bar slot out of scope!", warning=True)
