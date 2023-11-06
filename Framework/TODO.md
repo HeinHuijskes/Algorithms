@@ -18,6 +18,8 @@
 - [x] Make size dynamic and add fullscreen
 - [x] Add example for framework use
 - [x] Abstract generic button logic to button class
+- [ ] Extract much more generic logic
+- [ ] Extract tilemap
 - [ ] Add generic buttons
 - [ ] Add colour settings
 - [ ] Add visuals reduction toggle
