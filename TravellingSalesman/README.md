@@ -1,10 +1,4 @@
-## Requirements
-
-#### Pygame
-> `pip install pygame`
-
-#### Multiprocess (currently broken)
-> `pip install multiprocess`
+The Travelling Salesman algorithm/problem, optimized using Ant Colony Optimization (ACO).
 
 ## Sources
 
