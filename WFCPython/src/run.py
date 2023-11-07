@@ -24,17 +24,15 @@ width: int
 height: int
 
 
-def resetBoard(controller: Controller):
-    board.__init__(10, 10, controller.ui)
-    controller.setDrawables(board.getDrawables())
-    controller.redrawDrawables()
+def resetMap(controller: Controller):
+    cellMap.reset()
+    drawMap(cellMap, controller, redraw=True)
 
 def runAlgorithm(controller: Controller):
     if not board.showProcess:
         quickRun(controller)
         return
     controller.startTimer()
-    cellMap = Map(board.columns, board.rows)
     fails = 0
     drawMap(cellMap, controller, redraw=True)
     while not cellMap.is_solved() and fails < allowedFails:
@@ -54,7 +52,6 @@ def runAlgorithm(controller: Controller):
 
 def quickRun(controller: Controller):
     controller.startTimer()
-    cellMap = Map(board.columns, board.rows)
     cellMap.create_map()
     controller.stopTimer()
     if cellMap.is_solved():
@@ -88,7 +85,7 @@ def drawMap(cellMap: Map, controller: Controller, redraw=False):
             else:
                 tiles[-1].append(UITile(colour="black"))
             if board.showEntropy:  # and cell.collapsed
-                texts.append(str(cell.entropy()))
+                texts.append(str(cell.entropy))
     board.tiles = tiles
     resetTilePositions(board)
     drawDrawables(controller, redraw, texts)
@@ -120,9 +117,10 @@ def increaseDimensions(controller: Controller, rows=1, columns=1):
             row.append(UITile())
     for i in range(rows):
         board.tiles.append([UITile() for i in range(board.rows)])
+    cellMap.addCells(columns, rows)
     resetTiles(controller)
 
-def decreaseDimensions(controller: Controller, columns=1, rows=1):
+def decreaseDimensions(controller: Controller, rows=1, columns=1):
     board.rows = max(1, board.rows - columns)
     board.columns = max(1, board.columns - rows)
     tiles = []
@@ -131,6 +129,7 @@ def decreaseDimensions(controller: Controller, columns=1, rows=1):
         for j in range(board.rows):
             tiles[-1].append(board.tiles[i][j])
     board.tiles = tiles
+    cellMap.removeCells(columns, rows)
     resetTiles(controller)
 
 def largeIncrease(controller: Controller):
@@ -172,7 +171,7 @@ sizeButtons = [
 ]
 
 buttons = [
-    Button(label="Reset", action=resetBoard),
+    Button(label="Reset", action=resetMap),
     Button(label="WFC", action=runAlgorithm),
     Button(label="Entropy", action=toggleShowEntropy),
     Button(label="Show updates", action=toggleProcess),
@@ -184,5 +183,6 @@ algorithm = WFCAlgorithm(controller)
 board = UIBoard(start_columns, start_rows, controller.ui)
 controller.ui.drawTopText(f'Size: ({board.rows}, {board.columns})', 1)
 controller.setDrawables(board.getDrawables())
+cellMap = Map(start_columns, start_rows)
 
 controller.run()

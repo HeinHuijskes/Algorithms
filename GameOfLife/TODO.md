@@ -1,0 +1,9 @@
+- [x] Add general Game Of Life implementation
+- [x] Add resizing
+- [x] Add different runtimes
+- [x] Add different run speeds
+- [x] Add neighbour text overlay
+- [ ] Add proper run and stop running toggles
+- [ ] Add different cellular automata
+- [ ] Add different kernels
+- [ ] Add gradient kernels with pretty colours

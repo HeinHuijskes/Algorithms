@@ -30,6 +30,17 @@ class Map:
         self.cells = [[self.Cell(x, y, self) for y in range(0, self.size_y)] for x in range(0, self.size_x)]
         self.hasContradiction = False
 
+    def addCells(self, add_x, add_y):
+        self.size_x += add_x
+        self.size_y += add_y
+        for x, column in enumerate(self.cells):
+            for i in range(add_x):
+                column.append(self.Cell(x + i, y, self))
+        pass
+
+    def removeCells(self, rem_x, rem_y):
+        pass
+
     def reset(self):
         self.cells = [[self.Cell(x, y, self) for y in range(0, self.size_y)] for x in range(0, self.size_x)]
         self.hasContradiction = False
@@ -66,13 +77,13 @@ class Map:
         lowest = None
         for column in self.cells:
             for cell in column:
-                if not cell.collapsed and (lowest is None or cell.entropy() < lowest.entropy()):
+                if not cell.collapsed and (lowest is None or cell.entropy < lowest.entropy):
                     lowest = cell
 
         lows = []
         for column in self.cells:
             for cell in column:
-                if not cell.collapsed and cell.entropy() == lowest.entropy():
+                if not cell.collapsed and cell.entropy == lowest.entropy:
                     lows.append(cell)
         index = math.floor(random.random() * len(lows))
         lowest = lows[index]
@@ -86,15 +97,17 @@ class Map:
                 neighbour.restrict(cell)
         # self.propagate_change(cell)
 
-    def propagate_change(self, cell):
-        change_queue = self.neighbours(cell)
+    def propagate_change(self, changedCell):
+        change_queue = self.neighbours(changedCell)
         while change_queue:
             queue_cell = change_queue.pop(0)
-            change = cell.restrict(queue_cell)
+            entropy = queue_cell.entropy
+            [queue_cell.restrict(cell) for cell in self.neighbours(queue_cell)]
             if self.hasContradiction:
+                print("Contradiction in propagation!")
                 break
-            # if change:
-            #     self.propagate_change(queue_cell)
+            if queue_cell.entropy < entropy:
+                change_queue += self.neighbours(queue_cell)
 
     def neighbours(self, cell):
         neighbours = []
@@ -128,6 +141,7 @@ class Map:
             self.state = None
             self.x = x
             self.y = y
+            self.entropy = len(self.states)
 
         def entropy(self):
             return len(self.states)
@@ -146,6 +160,7 @@ class Map:
             self.state = self.states[index]
             self.collapsed = True
             self.states = [self.state]
+            self.entropy = 1
 
         def restrict(self, cell):
             # possible = False
@@ -169,6 +184,7 @@ class Map:
             self.states = possible_states
             if len(self.states) == 0:
                 self.cell_map.hasContradiction = True
+            self.entropy = len(self.states)
             return changed
 
         def get_direction(self, cell):

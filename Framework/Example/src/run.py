@@ -14,16 +14,19 @@ algorithm: EXAlgorithm
 buttons: list[Button]
 width: int
 height: int
+logs = []
 
 def logAction(controller: Controller):
-    controller.ui.log("Logged")
+    log = f'Logged {len(logs)} times'
+    logs.append(log)
+    controller.ui.log(log)
 
 def inFieldAction(controller: Controller, position: tuple):
     drawables = controller.getDrawables()
     dot = Drawable(position, "dot")
     drawables.append(dot)
     controller.setDrawables(drawables)
-    controller.ui.drawObject(dot)
+    controller.drawDrawables()
     controller.ui.log(f'Added dot at {position}')
     controller.ui.drawTopText(f'{len(controller.getDrawables())} Dots', 0)
 

@@ -12,4 +12,4 @@ class CellTest:
         cell = Map.Cell(100, 100, cell_map)
 
     def test_entropy(self):
-        assert self.cell.entropy() == 6
+        assert self.cell.entropy == 6

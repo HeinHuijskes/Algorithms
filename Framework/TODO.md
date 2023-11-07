@@ -28,5 +28,7 @@
 - [ ] Add stats bars
 - [ ] Add testing
 - [ ] Add button blocking when others are in use
+- [ ] Add button process stopper
 - [ ] Add text scaling
 - [ ] Look into better GUIs for encasing such as [PySide6](https://www.youtube.com/watch?v=Z1N9JzNax2k)
+- [ ] Add [Jurre's 3D engine](https://github.com/Jurredr/3d-engine-py) (?)

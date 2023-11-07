@@ -1,0 +1,1 @@
+The Wave Function Collapse algorithm, very neat for making randomly generate maps for games, or seating difficult people next to each other at social gatherings. For the latter though, consider just using a SAT solver instead.

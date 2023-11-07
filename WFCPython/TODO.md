@@ -4,6 +4,10 @@
 - [x] Add timer and size text
 - [x] Add differing x and y dimensions
 - [x] Add entropy button and quickrun button
+- [ ] Add prettier colours
+- [ ] Add stepwise button
+- [ ] Add onclick collapse
+- [ ] Add varying chance of new tile based on what types of tiles exist so far
 - [ ] Implement more efficient entropy calculation and/or storage
 - [ ] Remember maps
 - [ ] Add togglable colours

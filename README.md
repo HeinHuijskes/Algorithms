@@ -1,3 +1,5 @@
+Some fun programming exercises, visualised using pygame.
+
 ## Travelling Salesman
 ![alt text](./TravellingSalesman/graph.PNG)
 ## Wave Function Collapse
