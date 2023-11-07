@@ -32,3 +32,4 @@
 - [ ] Add text scaling
 - [ ] Look into better GUIs for encasing such as [PySide6](https://www.youtube.com/watch?v=Z1N9JzNax2k)
 - [ ] Add [Jurre's 3D engine](https://github.com/Jurredr/3d-engine-py) (?)
+- [ ] Look at using [compute shaders](https://api.arcade.academy/en/stable/tutorials/compute_shader/index.html)

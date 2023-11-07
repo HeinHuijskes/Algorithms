@@ -18,23 +18,20 @@ def clear(controller: Controller):
 
 def randomFill(controller: Controller):
     algorithm.randomFillField()
-    algorithm.showField(clear=True)
     controller.ui.log('Randomly filled field')
 
 def step(controller: Controller):
     algorithm.updateField()
-    algorithm.showField()
     controller.ui.log('Step')
 
 def setCell(controller: Controller, position: tuple):
     x, y = position
     algorithm.toggleCell(x, y)
-    algorithm.showField()
     controller.ui.log(f'Added cell at ({x},{y})')
 
 def showNeighboursAmount(controller: Controller):
     algorithm.showNeighboursAmount = not algorithm.showNeighboursAmount
-    algorithm.showField()
+    algorithm.updateTileMap()
 
 def runSteps(controller: Controller, steps=10):
     controller.ui.log(f'Running {steps} steps')
@@ -45,7 +42,6 @@ def runSteps(controller: Controller, steps=10):
         if not algorithm.fast:
             sleep(0.1)
         controller.ui.drawTopText(f'Step: {i+1}', 1)
-        algorithm.showField()
     controller.stopTimer()
 
 def runManySteps(controller: Controller):
@@ -60,8 +56,7 @@ def changeSpeed(controller: Controller):
 
 def changeFieldSize(controller: Controller, amount):
     algorithm.changeFieldSize(amount)
-    algorithm.showField(clear=True)
-    controller.ui.log(f'Changed field size to ({algorithm.cells_x},{algorithm.cells_y})')
+    controller.ui.log(f'Changed field size to ({algorithm.tileMap.tiles_x},{algorithm.tileMap.tiles_y})')
 
 def increaseFieldSize(controller: Controller):
     changeFieldSize(controller, amount=1)
