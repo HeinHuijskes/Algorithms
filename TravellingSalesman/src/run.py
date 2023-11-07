@@ -19,7 +19,7 @@ width: int
 height: int
 
 def bruteForceAction(controller: Controller):
-    positions = [drawable.value for drawable in controller.getDrawables()]
+    positions = [drawable.position for drawable in controller.getDrawables()]
     controller.startTimer()
     solution = algorithm.bruteForce(positions)
     controller.stopTimer()
@@ -58,7 +58,7 @@ def changeDotsAction(amount: int, controller: Controller):
         positions = positions + newPositions
     else:
         for i in range(-amount):
-            if len(positions) > 0:
+            if len(positions) > 1:
                 positions = positions[1:]
             else:
                 break
@@ -74,9 +74,8 @@ def changeDotsAction(amount: int, controller: Controller):
 
 def runACOAction(controller: Controller):
     controller.startTimer()
-    controller.timer.toggle()
     algorithm.aco.run([drawable.position for drawable in (controller.getDrawables())])
-    controller.timer.toggle()
+    controller.stopTimer()
 
 def increaseIterationsAction(controller: Controller):
     if algorithm.aco.iterations == 1:

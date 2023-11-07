@@ -136,6 +136,6 @@ class ACOAlgorithm(Algorithm):
             score = scores[i]
             prev = route[-1]
             for node in route:
-                pheromone = self.pheromoneTrails[prev][node] + self.pheromoneDeposit / score
+                pheromone = self.pheromoneTrails[prev][node] + self.pheromoneDeposit / max(score, 0.0000001)
                 self.pheromoneTrails[prev][node] = pheromone
                 prev = node
